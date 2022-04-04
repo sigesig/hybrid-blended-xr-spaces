@@ -407,7 +407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &258137686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,7 +488,7 @@ MonoBehaviour:
       m_Calls: []
   m_XROrigin: {fileID: 0}
   m_ARSessionOrigin: {fileID: 950194031}
-  m_PlacementPrefab: {fileID: 0}
+  m_PlacementPrefab: {fileID: 2840592210150306051, guid: d7c62ca28ac791744993d5f8b16cc1bc, type: 3}
   m_FallbackLayerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -1013,7 +1013,7 @@ GameObject:
   - component: {fileID: 641968206}
   m_Layer: 0
   m_Name: AR Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
