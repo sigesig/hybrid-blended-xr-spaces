@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit.AR;
+using Util;
 
 public class CreateSpace : MonoBehaviour
 {
@@ -64,7 +66,8 @@ public class CreateSpace : MonoBehaviour
         currentSession.gameObject.SetActive(true);
         if (lineRenderer.positionCount >= 3)
         {
-            //CreateMesh();
+            Mesh createdMesh = CreateMesh();
+            Instantiate(createdMesh);
         }
     }
     
@@ -90,4 +93,38 @@ public class CreateSpace : MonoBehaviour
     {
         throw new System.NotImplementedException();
     }
+
+    private Mesh CreateMesh()
+    {
+        Mesh mesh = new Mesh();
+        GetComponent<MeshFilter>().mesh = mesh;
+        
+        List<Vector3> meshVertices = new List<Vector3>();
+        List<int> meshIndices = new List<int>();
+
+        // Generate get vertices
+        List<Vector3> vertices = new List<Vector3>();
+        for (int i = 0; i < lineRenderer.positionCount; i++)
+        {
+            vertices.Add(lineRenderer.GetPosition(i));
+        }
+        
+        //Convert Vector3[] to Vector2[]
+        List<Vector2> vector2S = new List<Vector2>();
+        foreach (var vertex in vertices)
+        {
+            vector2S.Add(vertex);
+        }
+        
+        //Triangulate
+        var triangles = Triangulator.Triangulate(vector2S);
+        Triangulator.AddTrianglesToMesh(ref meshVertices,ref meshIndices, triangles, 0, true);
+        
+        //Add to mesh
+        mesh.vertices = meshVertices.ToArray();
+        mesh.triangles = meshIndices.ToArray();
+        
+        return mesh;
+    }
+
 }
