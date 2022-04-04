@@ -1,7 +1,5 @@
 ﻿/***
 	This script was made by Jonathan Kings for use within the Unity Asset "Haze Triangulator".
-	You are free to modify this file for your own use or to redistribute it, but please do not remove this header.
-	Thanks for using Haze assets in your projects :)
 	TODO: Should add code that cleans up the input such that "two line segments of the polygon can intersect" but will be cleaned up
 ***/
 

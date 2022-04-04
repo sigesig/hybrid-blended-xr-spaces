@@ -25,6 +25,7 @@ public class StartSession : MonoBehaviour
      */
     private void SwitchToSpaceCreation()
     {
+        Debug.Log("Pressed");
         sessionCanvas.gameObject.SetActive(false);
         spaceCanvas.gameObject.SetActive(true);
     }
