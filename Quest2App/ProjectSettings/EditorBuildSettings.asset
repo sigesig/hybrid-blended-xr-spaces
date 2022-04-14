@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/BlendedSpaces.unity
+    guid: 46e69415ee1e3344db33c1b39ab5b7c5
   m_configObjects:
-    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 2d51190f2eb07474b86f42a24a42f20f, type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 256a6004ca97c0e40b34af10c8d147db, type: 2}
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 729e0fa8be781b848ba7f711b44ed244, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e5eda143d00f4c44296a204019e60ad0, type: 2}

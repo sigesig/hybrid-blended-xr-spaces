@@ -12,14 +12,22 @@ public class StartSession : MonoBehaviour
     [SerializeField] public Button startSessionBtn;
     [SerializeField] public Canvas sessionCanvas;
     [SerializeField] public Canvas spaceCanvas;
+    [SerializeField] public Canvas noConnectionCanvas;
     [SerializeField] public ARPlaneManager arPlaneManager;
     [SerializeField] public ARPlacementInteractable placementInteractable;
 
+    private bool _connectionStatus;
     void Start()
     {
         Helpers.TogglePlaneDetection(arPlaneManager);
         startSessionBtn.onClick.AddListener(SwitchToSpaceCreation);
-        
+        _connectionStatus = Networking.Connect();
+        Debug.Log(_connectionStatus);
+        if (!_connectionStatus)
+        {
+            sessionCanvas.gameObject.SetActive(false);
+            noConnectionCanvas.gameObject.SetActive(true);
+        }
     }
     
     void Update()
