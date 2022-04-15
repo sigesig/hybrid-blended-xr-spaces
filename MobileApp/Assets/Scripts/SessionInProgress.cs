@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Voice.Unity;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class SessionInProgress : MonoBehaviour
     // Canvases
     [SerializeField] public Canvas sessionCanvas;
     [SerializeField] public Canvas currentSession;
+    [SerializeField] public Recorder recorder;
     
     private bool _voiceChatIsMuted = true;
     
@@ -21,6 +23,7 @@ public class SessionInProgress : MonoBehaviour
     {
         muteUnmuteButton.onClick.AddListener(VoiceChatControl);
         exitSession.onClick.AddListener(EndSession);
+        //recorder.IsRecording = !_voiceChatIsMuted;
     }
 
     // Update is called once per frame
@@ -54,5 +57,7 @@ public class SessionInProgress : MonoBehaviour
 
         _voiceChatIsMuted = !_voiceChatIsMuted;
         muteUnmuteButton.GetComponent<Image>().sprite = muted;
+
+        recorder.IsRecording = !_voiceChatIsMuted;
     }
 }
