@@ -142,7 +142,7 @@ public class CreateSpace : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("test5");
+            Debug.Log(e);
         }
         //Add to mesh
         //mesh.vertices = meshVertices.ToArray();
