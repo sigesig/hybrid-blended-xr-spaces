@@ -8,6 +8,9 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.Interaction.Toolkit.AR;
 using Util;
 
+/// <summary>
+/// This is used by the create space canvas. i.e. used when the mobile user is defining the space
+/// </summary>
 public class CreateSpace : MonoBehaviour
 {
     // Buttons variables

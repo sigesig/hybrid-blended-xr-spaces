@@ -10,6 +10,10 @@ public class Networking : MonoBehaviourPunCallbacks
     private static readonly string _gameVersion = "1";
     private static bool _isConnected = false;
     private static List<RoomInfo> _rooms = new List<RoomInfo>();
+    
+    
+    public static Networking instance;
+    
     #region Public Methods
     /// <summary>
     /// Used to join a Photon room
@@ -49,26 +53,18 @@ public class Networking : MonoBehaviourPunCallbacks
     /// <summary>
     /// Connect to Pun
     /// </summary>
-    public static void Connect()
+    public static void Connect(string userName)
     {
-        
-        // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
-        if (PhotonNetwork.IsConnected)
+        try
         {
-            
+            PhotonNetwork.NickName = userName; //we can use a input to change this 
+            PhotonNetwork.AutomaticallySyncScene = false; //To call PhotonNetwork.LoadLevel()
+            PhotonNetwork.GameVersion = _gameVersion; // Set game version such that only people with same version can play together
+            PhotonNetwork.ConnectUsingSettings();
         }
-        else
+        catch (Exception e)
         {
-            try
-            {
-                PhotonNetwork.GameVersion = _gameVersion;
-                PhotonNetwork.ConnectUsingSettings();
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
-            }
-            
+            Debug.Log(e);
         }
     }
 
@@ -132,7 +128,7 @@ public class Networking : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+        Debug.Log("Master: " + PhotonNetwork.IsMasterClient + " | Players In Room: " + PhotonNetwork.CurrentRoom.PlayerCount + " | RoomName: " + PhotonNetwork.CurrentRoom.Name + " Region: " + PhotonNetwork.CloudRegion);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

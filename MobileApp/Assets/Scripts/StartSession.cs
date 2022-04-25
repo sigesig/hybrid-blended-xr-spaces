@@ -26,18 +26,12 @@ public class StartSession : MonoBehaviour
     #endregion
 
     #region MonoBehaviour CallBacks
-    void Awake()
-    {
-        // #Critical
-        // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
-        //PhotonNetwork.AutomaticallySyncScene = true;
-    }
-    
+
     void Start()
     {
         Helpers.TogglePlaneDetection(arPlaneManager);
         startSessionBtn.onClick.AddListener(SwitchToSpaceCreation);
-        Networking.Connect();
+        Networking.Connect("KekW");
         if (!Networking.IsConnected())
         {
             connection.gameObject.SetActive(false);
