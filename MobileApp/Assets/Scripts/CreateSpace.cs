@@ -44,7 +44,7 @@ public class CreateSpace : MonoBehaviour
         var numberOfPositions = lineRenderer.positionCount;
         IsMeshCreationPossible(numberOfPositions);
         CanDeletePreviousPoint(numberOfPositions);
-        
+        InstantiateDep
     }
 
 
@@ -76,12 +76,8 @@ public class CreateSpace : MonoBehaviour
     {
         Helpers.TogglePlaneDetection(arPlaneManager);
         var createdMesh = CreateMesh();
-        GameObject go = new GameObject();
-        go.AddComponent<MeshFilter>();
-        go.AddComponent<MeshRenderer>();
-        go.GetComponent<MeshFilter>().mesh = createdMesh;
-        go.GetComponent<Renderer>().material.color = Color.red;
-        var instantiatedMesh = Instantiate(go);
+        
+        
         RemoveAllPoints();
         spaceCanvas.gameObject.SetActive(false);
         currentSession.gameObject.SetActive(true);
@@ -111,48 +107,7 @@ public class CreateSpace : MonoBehaviour
         lineRenderer.positionCount = newPositions.Length;
         lineRenderer.SetPositions(newPositions);
     }
-
-    private Mesh CreateMesh()
-    {
-        Mesh mesh = new Mesh();
-        //GetComponent<MeshFilter>().mesh = mesh;
-        Debug.Log("test1");
-        List<Vector3> meshVertices = new List<Vector3>();
-        List<int> meshIndices = new List<int>();
-        Debug.Log("test2");
-        // Generate get vertices
-        List<Vector3> vertices = new List<Vector3>();
-        for (int i = 0; i < lineRenderer.positionCount; i++)
-        {
-            vertices.Add(lineRenderer.GetPosition(i));
-        }
-
-        Debug.Log("test3");
-        //Convert Vector3[] to Vector2[]
-        List<Vector2> vector2S = new List<Vector2>();
-        foreach (var vertex in vertices)
-        {
-            vector2S.Add(vertex);
-        }
-        Debug.Log("test4");
-        //Triangulate
-
-        List<Triangulator.Triangle> triangles;
-        try
-        {
-            triangles = Triangulator.Triangulate(vector2S);
-            Triangulator.AddTrianglesToMesh(ref meshVertices,ref meshIndices, triangles, 0, true);
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }
-        //Add to mesh
-        //mesh.vertices = meshVertices.ToArray();
-        //mesh.triangles = meshIndices.ToArray();
-        
-        return mesh;
-    }
+    
 
     /*
      * Used to toggle interactable of creation button
