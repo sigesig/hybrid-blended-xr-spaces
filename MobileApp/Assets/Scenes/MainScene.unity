@@ -2340,6 +2340,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c721ac8f9a3fd34438183dfa03b2390f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _placedPoints: []
+  _lineRenderer: {fileID: 0}
 --- !u!1 &1001098573
 GameObject:
   m_ObjectHideFlags: 0
@@ -3553,6 +3555,8 @@ MonoBehaviour:
   lineRenderer: {fileID: 568452908}
   placementInteractable: {fileID: 258137686}
   arPlaneManager: {fileID: 950194034}
+  corner: {fileID: 2840592210150306051, guid: d7c62ca28ac791744993d5f8b16cc1bc, type: 3}
+  planePrefab: {fileID: 6505507480755274737, guid: 6772f35227d2f934480f730e843836d4, type: 3}
 --- !u!1 &1514717370
 GameObject:
   m_ObjectHideFlags: 0
