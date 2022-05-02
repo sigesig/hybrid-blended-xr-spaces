@@ -10,6 +10,8 @@ public class Networking : MonoBehaviourPunCallbacks
     private static readonly string _gameVersion = "1";
     private static bool _isConnected = false;
     private static List<RoomInfo> _rooms = new List<RoomInfo>();
+    private GameObject planeObject;
+    private GameObject networkCube;
     #region Public Methods
     /// <summary>
     /// Used to join a Photon room
@@ -133,6 +135,10 @@ public class Networking : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+        planeObject = (GameObject)PhotonNetwork.Instantiate("DeskPlaneInteractible", new Vector3(0,-2,0), Quaternion.identity * Quaternion.Euler(0, 180, 0), 0) ;
+        PlaneAlignment.MovePlaneToCenter(planeObject.transform, transform);
+        if(!PhotonNetwork.IsMasterClient) PlaneAlignment.FlipPosition(planeObject.transform, transform, 180);
+        Debug.Log("Joined room: " + PhotonNetwork.CurrentRoom.Name);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

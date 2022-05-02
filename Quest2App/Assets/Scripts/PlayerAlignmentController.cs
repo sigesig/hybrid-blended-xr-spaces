@@ -8,6 +8,7 @@ public class PlayerAlignmentController : MonoBehaviourPunCallbacks
 {
 
     private GameObject planeObject;
+    private GameObject cubeObject;
 
     public void SignalReady()
     {

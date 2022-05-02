@@ -36,11 +36,13 @@ namespace Chiligames.MetaAvatars
 
         public override void OnJoinedRoom()
         {
+            /*
             //If we are master, instantiate the RPCManager when joining room
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.InstantiateRoomObject("RPCManager", Vector3.zero, Quaternion.identity);
             }
+            */
 
             //Set the user to different spawning locations
             if (PhotonNetwork.LocalPlayer.ActorNumber <= spawnPoints.Length)
@@ -52,10 +54,11 @@ namespace Chiligames.MetaAvatars
             var voiceSetup = PhotonNetwork.Instantiate(photonVoiceSetupPrefab.name, centerEyeAnchor.transform.position, centerEyeAnchor.transform.rotation);
             voiceSetup.transform.SetParent(centerEyeAnchor);
 
-            GetUserID();
+            //GetUserID();
         }
 
         //Get Oculus/Meta user ID and send it to other users to spawn our avatars in their instances of the app
+        /*
         private void GetUserID()
         {
             Users.GetLoggedInUser().OnComplete(message =>
@@ -93,5 +96,6 @@ namespace Chiligames.MetaAvatars
         {
             RemoteAvatarManager.instance.RemoveRemoteAvatar(actorNumber);
         }
+        */
     }
 }

@@ -3351,14 +3351,6 @@ MonoBehaviour:
   creatingPlane: {fileID: 773710015}
   planePrefab: {fileID: 6460412928644319779, guid: 03b82c9a0b42f478d99e0214b412b44a, type: 3}
   cornor: {fileID: 5617209138062579993, guid: 70329a54a27469643b66b5ab8844fcae, type: 3}
-  s1: {fileID: 0}
-  s2: {fileID: 0}
-  s3: {fileID: 0}
-  minSize: 0.2
-  bone: {fileID: 0}
-  plane: {fileID: 0}
-  fingerDist: 0
-  hasInstantiated: 0
 --- !u!114 &1870938104306154
 MonoBehaviour:
   m_ObjectHideFlags: 0
