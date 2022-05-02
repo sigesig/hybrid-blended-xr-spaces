@@ -10,10 +10,6 @@ public class Networking : MonoBehaviourPunCallbacks
     private static readonly string _gameVersion = "1";
     private static bool _isConnected = false;
     private static List<RoomInfo> _rooms = new List<RoomInfo>();
-    
-    
-    public static Networking instance;
-    
     #region Public Methods
     /// <summary>
     /// Used to join a Photon room

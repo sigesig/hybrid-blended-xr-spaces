@@ -13,13 +13,11 @@ GameObject:
   - component: {fileID: 244062007442054364}
   - component: {fileID: 244062007442054363}
   - component: {fileID: 244062007442054360}
-  - component: {fileID: 6969940343319851148}
   - component: {fileID: 6744941254621326878}
   - component: {fileID: 5038885431793176573}
   - component: {fileID: -8624762948589462441}
-  - component: {fileID: 6970199506130549274}
-  - component: {fileID: -2163474504419583870}
   - component: {fileID: -4894830475989297057}
+  - component: {fileID: -941142169144149107}
   m_Layer: 0
   m_Name: DeskPlaneInteractible
   m_TagString: whiteboard
@@ -36,7 +34,7 @@ Transform:
   m_GameObject: {fileID: 244062007442054365}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children:
   - {fileID: 8273197744860584875}
   m_Father: {fileID: 0}
@@ -103,19 +101,6 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6969940343319851148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244062007442054365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4505897b692127842981ea8512a54a20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menu: {fileID: 4619569601535951430, guid: 308531292d3740940b4db8f10f8ca224, type: 3}
 --- !u!120 &6744941254621326878
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -135,7 +120,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2512827267cc0da4a90ecb92fd35043b, type: 2}
+  - {fileID: 2100000, guid: ddad058086e0c3349807bcd7106b119d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -237,32 +222,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 1, z: 10}
   m_Center: {x: 0, y: -0.5, z: 0}
---- !u!114 &6970199506130549274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244062007442054365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26d4b91045f917940ba147a198b5670d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-2163474504419583870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244062007442054365}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e701baabf62e84adca10c92a77f9ba15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  texture: {fileID: 0}
-  textureSize: {x: 2048, y: 2048}
 --- !u!23 &-4894830475989297057
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -304,6 +263,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-941142169144149107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244062007442054365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cad3709038e41124d9b3a84d5301a2eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5257734806956444937
 GameObject:
   m_ObjectHideFlags: 0

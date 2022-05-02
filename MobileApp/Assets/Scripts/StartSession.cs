@@ -65,7 +65,7 @@ public class StartSession : MonoBehaviour
         Helpers.TogglePlaneDetection(arPlaneManager);
         sessionCanvas.gameObject.SetActive(false);
         
-        spaceCanvas.gameObject.SetActive(true);
+        //spaceCanvas.gameObject.SetActive(true);
     }
     /// <summary>
     /// Used to switch canvas when no access to master server is available 
