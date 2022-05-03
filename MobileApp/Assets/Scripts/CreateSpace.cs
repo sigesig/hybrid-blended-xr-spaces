@@ -154,8 +154,9 @@ public class CreateSpace : MonoBehaviour
         //_placedPoints[0].GetComponent<MeshRenderer>().enabled = false;
         //_placedPoints[1].GetComponent<MeshRenderer>().enabled = false;
         //_placedPoints[2].GetComponent<MeshRenderer>().enabled = false;
-        lineRenderer.enabled = false;
+        lineRenderer.enabled = true;
         placementInteractable.gameObject.SetActive(false);
+        ResizePlane();
         return true;
     }
 
