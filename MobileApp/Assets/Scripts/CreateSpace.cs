@@ -151,9 +151,9 @@ public class CreateSpace : MonoBehaviour
         Vector3 newPoint = Vector3.Cross(Vector3.up, between);
         _placedPoints.Add(Instantiate(corner, newPoint, Quaternion.Euler(90, 0, 0)));
         _plane = Instantiate(planePrefab, _placedPoints[0].transform);
-        _placedPoints[0].GetComponent<MeshRenderer>().enabled = false;
-        _placedPoints[1].GetComponent<MeshRenderer>().enabled = false;
-        _placedPoints[2].GetComponent<MeshRenderer>().enabled = false;
+        //_placedPoints[0].GetComponent<MeshRenderer>().enabled = false;
+        //_placedPoints[1].GetComponent<MeshRenderer>().enabled = false;
+        //_placedPoints[2].GetComponent<MeshRenderer>().enabled = false;
         lineRenderer.enabled = false;
         placementInteractable.gameObject.SetActive(false);
         return true;
