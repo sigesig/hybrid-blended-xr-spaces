@@ -22,6 +22,7 @@ namespace Chiligames.MetaAvatars
         public static PlayerManager instance;
         private GameObject avatar;
         private GameObject centerEye;
+        private PhotonView view;
 
         private void Awake()
         {
@@ -35,8 +36,12 @@ namespace Chiligames.MetaAvatars
             }
         }
 
+        public void Start() {
+            view = GetComponent<PhotonView>();
+        }
+
         public void Update() {
-            if(avatar != null) {
+            if(view.IsMine & avatar != null) {
                 avatar.transform.position = centerEyeAnchor.transform.position;
                 avatar.transform.rotation = centerEyeAnchor.transform.rotation;
             }
