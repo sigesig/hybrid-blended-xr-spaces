@@ -22,7 +22,6 @@ namespace Chiligames.MetaAvatars
         public static PlayerManager instance;
         private GameObject avatar;
         private GameObject centerEye;
-        private PhotonView view;
 
         private void Awake()
         {
@@ -36,15 +35,10 @@ namespace Chiligames.MetaAvatars
             }
         }
 
-        public void Start() {
-            view = GetComponent<PhotonView>();
-        }
-
         public void Update() {
-            if(view.IsMine & avatar != null) {
-                avatar.transform.position = centerEyeAnchor.transform.position;
-                avatar.transform.rotation = centerEyeAnchor.transform.rotation;
-            }
+            //apparently it does not work if you guard for avatar != null??
+            avatar.transform.position = centerEyeAnchor.transform.position;
+            avatar.transform.rotation = centerEyeAnchor.transform.rotation;
         }
 
         public override void OnJoinedRoom()
@@ -58,10 +52,6 @@ namespace Chiligames.MetaAvatars
             var voiceSetup = PhotonNetwork.Instantiate(photonVoiceSetupPrefab.name, centerEyeAnchor.transform.position, centerEyeAnchor.transform.rotation);
             voiceSetup.transform.SetParent(centerEyeAnchor);
 
-            
-        }
-
-        public override void OnPlayerEnteredRoom(Player newPlayer) {
             //Instantiate avatar/representation of HMD user on Photonnetwork
             avatar = PhotonNetwork.Instantiate("CubeAvatar", centerEyeAnchor.transform.position, centerEyeAnchor.transform.rotation);
             //avatar.SetActive(false);
