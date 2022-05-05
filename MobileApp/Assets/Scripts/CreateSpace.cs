@@ -73,7 +73,7 @@ public class CreateSpace : MonoBehaviour
     void Update()
     {
         var numberOfPositions = lineRenderer.positionCount;
-        IsMeshCreationPossible(numberOfPositions);
+        IsPlaneCreationPossible(numberOfPositions);
         CanDeletePreviousPoint(numberOfPositions);
         
         // Will handle plane create
@@ -227,9 +227,9 @@ public class CreateSpace : MonoBehaviour
     /*
      * Used to toggle interactable of creation button
      */
-    private void IsMeshCreationPossible(int numberOfPoints)
+    private void IsPlaneCreationPossible(int numberOfPoints)
     {
-        if (numberOfPoints >= 3)
+        if (numberOfPoints >= 2)
         {
             createPlaneBtn.interactable = true;
             return;
