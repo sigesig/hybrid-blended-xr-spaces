@@ -171,6 +171,7 @@ public class CreateSpace : MonoBehaviour
             _placedPoints[0].transform.rotation = Quaternion.LookRotation(directionalVector);
             _placedPoints[1].transform.rotation = Quaternion.LookRotation(directionalVector);
             _placedPoints[2].transform.rotation = Quaternion.LookRotation(directionalVector);
+            _depthPointGameObject.transform.rotation = Quaternion.LookRotation(directionalVector) * Quaternion.Euler(0, -90, 0);
             _plane.transform.rotation = Quaternion.LookRotation(directionalVector) * Quaternion.Euler(0, -90, 0);
         }
     }
