@@ -105,10 +105,10 @@ public class CreateSpace : MonoBehaviour
         if (Input.touchCount == 1)
         {
             var touch = Input.GetTouch(0);
-            List<ARRaycastHit> hits = new List<ARRaycastHit>();
             if (touch.phase == TouchPhase.Began)
             {
                 _initialTouch = touch;
+                Console.WriteLine("SO IM FUCKING HERE");
             }
 
             if (touch.phase == TouchPhase.Moved)
@@ -116,6 +116,7 @@ public class CreateSpace : MonoBehaviour
                 if (!_isScaling)
                 {
                     _initialDistanceBetween = touch.position.y - _initialTouch.position.y; //greater than 0 is up and less than zero is down
+                    Console.WriteLine("SO IM FUCKING HERE2");
                     if (_initialDistanceBetween > 0)
                     {
                         _positionChangeDirectionUp = true;
@@ -128,6 +129,7 @@ public class CreateSpace : MonoBehaviour
                 }
                 else
                 {
+                    Console.WriteLine("PEnis SO IM FUCKING HERE3");
                     var currentDistanceBetween = touch.position.y - _initialTouch.position.y;
                     var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
                     if (_positionChangeDirectionUp)
