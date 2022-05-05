@@ -163,8 +163,8 @@ public class CreateSpace : MonoBehaviour
 
     private bool StartDepthSelection()
     {   
-        //_placedPoints[0].transform.rotation = Quaternion.Euler(0,0,0);
-        //_placedPoints[1].transform.rotation = Quaternion.Euler(0,0,0);
+        _placedPoints[0].transform.rotation = Quaternion.Euler(0,0,0);
+        _placedPoints[1].transform.rotation = Quaternion.Euler(0,0,0);
         _depthDrag = Instantiate(corner, Vector3.Lerp(_placedPoints[0].transform.position, _placedPoints[1].transform.position, 0.5f), Quaternion.Euler(90, 0, 0));
         _depthDrag.transform.position = new Vector3(_depthDrag.transform.position.x, _depthDrag.transform.position.y, _depthDrag.transform.position.z + 0.1f);
         _placedPoints.Add(Instantiate(corner, Vector3.Lerp(_placedPoints[0].transform.position, _placedPoints[1].transform.position, 0.5f), Quaternion.Euler(90, 0, 0)));
