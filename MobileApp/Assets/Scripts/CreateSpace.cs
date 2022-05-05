@@ -102,21 +102,22 @@ public class CreateSpace : MonoBehaviour
 
     private void ChangeDepthGesture()
     {
-        if (Input.touchCount == 1)
+        if (Input.touchCount > 0)
         {
             var touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
                 _initialTouch = touch;
-                Console.WriteLine("SO IM FUCKING HERE");
+                Debug.Log("SO IM FUCKING HERE");
             }
-
+            Debug.Log("Not in began");
             if (touch.phase == TouchPhase.Moved)
             {
+                Debug.Log("In move");
                 if (!_isScaling)
                 {
                     _initialDistanceBetween = touch.position.y - _initialTouch.position.y; //greater than 0 is up and less than zero is down
-                    Console.WriteLine("SO IM FUCKING HERE2");
+                    Debug.Log("SO IM FUCKING HERE2");
                     if (_initialDistanceBetween > 0)
                     {
                         _positionChangeDirectionUp = true;
@@ -129,7 +130,7 @@ public class CreateSpace : MonoBehaviour
                 }
                 else
                 {
-                    Console.WriteLine("PEnis SO IM FUCKING HERE3");
+                    Debug.Log("PEnis SO IM FUCKING HERE3");
                     var currentDistanceBetween = touch.position.y - _initialTouch.position.y;
                     var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
                     if (_positionChangeDirectionUp)
