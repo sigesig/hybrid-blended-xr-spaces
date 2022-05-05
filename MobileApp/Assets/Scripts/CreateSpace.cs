@@ -143,8 +143,7 @@ public class CreateSpace : MonoBehaviour
 
         _plane.transform.position =
             _placedPoints[0].transform.position
-            + ((planeHeight * -_plane.transform.forward) / 2)
-            + ((planeWidth * -_plane.transform.right) / 2);
+            + ((planeHeight * -_plane.transform.forward) / 2);
     }
     
     /** Sets the rotation of all objects in the forward direction created by the two placed points*/
