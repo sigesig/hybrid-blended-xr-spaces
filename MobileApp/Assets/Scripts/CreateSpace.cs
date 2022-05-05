@@ -37,9 +37,10 @@ public class CreateSpace : MonoBehaviour
     
     #region Private variables
     private GameObject _plane;
-    private GameObject _depthDrag;
+    private GameObject _depthPointGameObject;
     private List<GameObject> _placedPoints = new List<GameObject>();
     private bool _depthPhaseRunning = false;
+    private bool _positionChangeDirectionUp;
 
     //Used for handling the resize 
     private ARRaycastManager _arRaycastManager;
@@ -83,9 +84,9 @@ public class CreateSpace : MonoBehaviour
         }
         ChangeDepthGesture();
         SetRotation();
-        if (_plane != null)
+        if (_isScaling)
         {
-            //ResizePlane();
+            ResizePlane();
         }
     }
 
@@ -115,14 +116,28 @@ public class CreateSpace : MonoBehaviour
                 if (!_isScaling)
                 {
                     _initialDistanceBetween = touch.position.y - _initialTouch.position.y; //greater than 0 is up and less than zero is down
-                    _currentUpVector3 = _placedPoints[3].transform.up;
+                    if (_initialDistanceBetween > 0)
+                    {
+                        _positionChangeDirectionUp = true;
+                    }
+                    else
+                    {
+                        _positionChangeDirectionUp = false;
+                    }
                     _isScaling = !Mathf.Approximately(_initialDistanceBetween, 0);
                 }
                 else
                 {
                     var currentDistanceBetween = touch.position.y - _initialTouch.position.y;
                     var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
-                    _plane.transform.up = _currentUpVector3 * scaleFactor;
+                    if (_positionChangeDirectionUp)
+                    {
+                        _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
+                    }
+                    else
+                    {
+                        _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
+                    }
                 }
             }
             else
@@ -138,7 +153,7 @@ public class CreateSpace : MonoBehaviour
         Vector3 endPoint = _placedPoints[1].transform.position;
 
         float planeWidth = Vector3.Distance(startPoint, endPoint);
-        float planeHeight = Vector3.Distance(_placedPoints[2].transform.position, _depthDrag.transform.position);
+        float planeHeight = Vector3.Distance(_placedPoints[2].transform.position, _depthPointGameObject.transform.position);
         _plane.transform.localScale = new Vector3((planeWidth * 10), (planeHeight * 5),1.0f );
 
         _plane.transform.position =
@@ -165,8 +180,8 @@ public class CreateSpace : MonoBehaviour
     {   
         _placedPoints[0].transform.rotation = Quaternion.Euler(0,0,0);
         _placedPoints[1].transform.rotation = Quaternion.Euler(0,0,0);
-        _depthDrag = Instantiate(corner, Vector3.Lerp(_placedPoints[0].transform.position, _placedPoints[1].transform.position, 0.5f), Quaternion.Euler(90, 0, 0));
-        _depthDrag.transform.position = new Vector3(_depthDrag.transform.position.x, _depthDrag.transform.position.y, _depthDrag.transform.position.z + 0.1f);
+        _depthPointGameObject = Instantiate(corner, Vector3.Lerp(_placedPoints[0].transform.position, _placedPoints[1].transform.position, 0.5f), Quaternion.Euler(90, 0, 0));
+        _depthPointGameObject.transform.position = new Vector3(_depthPointGameObject.transform.position.x, _depthPointGameObject.transform.position.y, _depthPointGameObject.transform.position.z + 0.1f);
         _placedPoints.Add(Instantiate(corner, Vector3.Lerp(_placedPoints[0].transform.position, _placedPoints[1].transform.position, 0.5f), Quaternion.Euler(90, 0, 0)));
         _plane = Instantiate(planePrefab, _placedPoints[0].transform);
         //_placedPoints[0].GetComponent<MeshRenderer>().enabled = false;
