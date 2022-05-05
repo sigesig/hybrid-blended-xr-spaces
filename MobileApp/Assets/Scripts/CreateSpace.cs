@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,8 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.Interaction.Toolkit.AR;
 using Util;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 /// <summary>
 /// This is used by the create space canvas. i.e. used when the mobile user is defining the space
@@ -78,13 +81,11 @@ public class CreateSpace : MonoBehaviour
             _depthPhaseRunning = StartDepthSelection();
         }
         ChangeDepthGesture();
-        if (_isScaling)
+        SetRotation();
+        if (_plane != null)
         {
             ResizePlane();
         }
-        
-
-
     }
 
     #region Plane creation functions
@@ -144,22 +145,32 @@ public class CreateSpace : MonoBehaviour
             + ((planeHeight * -_plane.transform.forward) / 2)
             + ((planeWidth * -_plane.transform.right) / 2);
     }
+    
+    /** Sets the rotation of all objects in the forward direction created by the two placed points*/
+    private void SetRotation()
+    {
+        if (_placedPoints.Count >= 2)
+        {
+            Vector3 directionalVector = Vector3.RotateTowards(_placedPoints[0].transform.forward, (_placedPoints[0].transform.position - _placedPoints[1].transform.position), 1, 1);
+            _placedPoints[0].transform.rotation = Quaternion.LookRotation(directionalVector);
+            _placedPoints[1].transform.rotation = Quaternion.LookRotation(directionalVector);
+            _placedPoints[2].transform.rotation = Quaternion.LookRotation(directionalVector);
+            _plane.transform.rotation = Quaternion.LookRotation(directionalVector) * Quaternion.Euler(0, -90, 0);
+        }
+    }
+
 
     private bool StartDepthSelection()
     {
-        Vector3 between = _placedPoints[0].transform.position - _placedPoints[1].transform.position;
-        Vector3 newPoint = Vector3.Cross(Vector3.up, between);
-        _placedPoints.Add(Instantiate(corner, newPoint, Quaternion.Euler(90, 0, 0)));
+        _placedPoints.Add(Instantiate(corner, Vector3.Lerp(_placedPoints[0].transform.position, _placedPoints[1].transform.position, 0.5f), Quaternion.Euler(90, 0, 0)));
         _plane = Instantiate(planePrefab, _placedPoints[0].transform);
         //_placedPoints[0].GetComponent<MeshRenderer>().enabled = false;
         //_placedPoints[1].GetComponent<MeshRenderer>().enabled = false;
         //_placedPoints[2].GetComponent<MeshRenderer>().enabled = false;
         lineRenderer.enabled = true;
         placementInteractable.gameObject.SetActive(false);
-        ResizePlane();
         return true;
     }
-
 
     private void CreateNetworkConnectedPlane()
     {
@@ -268,7 +279,9 @@ public class CreateSpace : MonoBehaviour
         RemoveAllPoints();
         lineRenderer.enabled = true;
         placementInteractable.gameObject.SetActive(true);
-        
+        _depthPhaseRunning = false;
+
+
         /* USEFULL if we want to make deletelast point actually delete last point and not interative 
         GameObject pointObj = null;
         if (_placedPoints.Any())
