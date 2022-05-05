@@ -139,11 +139,12 @@ public class CreateSpace : MonoBehaviour
 
         float planeWidth = Vector3.Distance(startPoint, endPoint);
         float planeHeight = Vector3.Distance(_placedPoints[2].transform.position, _depthDrag.transform.position);
-        _plane.transform.localScale = new Vector3((planeWidth * 5), (planeHeight * 5),1.0f );
+        _plane.transform.localScale = new Vector3((planeWidth * 10), (planeHeight * 5),1.0f );
 
         _plane.transform.position =
             _placedPoints[0].transform.position
-            + ((planeHeight * -_plane.transform.forward) / 2);
+            + ((planeHeight * -_plane.transform.forward) / 2)
+            + ((planeWidth * -_plane.transform.right) / 2);
     }
     
     /** Sets the rotation of all objects in the forward direction created by the two placed points*/
