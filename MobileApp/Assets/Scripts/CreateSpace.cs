@@ -139,7 +139,7 @@ public class CreateSpace : MonoBehaviour
 
         float planeWidth = Vector3.Distance(startPoint, endPoint);
         float planeHeight = Vector3.Distance(_placedPoints[2].transform.position, _depthDrag.transform.position);
-        _plane.transform.localScale = new Vector3((planeWidth * 5) - 0.02f, 1.0f, (planeHeight * 5) - 0.02f);
+        _plane.transform.localScale = new Vector3((planeWidth * 5) - 0.02f, (planeHeight * 5) - 0.02f,1.0f );
 
         _plane.transform.position =
             _placedPoints[0].transform.position
