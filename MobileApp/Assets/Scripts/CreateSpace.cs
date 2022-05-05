@@ -37,6 +37,7 @@ public class CreateSpace : MonoBehaviour
     
     #region Private variables
     private GameObject _plane;
+    private GameObject _depthDrag;
     private List<GameObject> _placedPoints = new List<GameObject>();
     private bool _depthPhaseRunning = false;
 
@@ -84,7 +85,7 @@ public class CreateSpace : MonoBehaviour
         SetRotation();
         if (_plane != null)
         {
-            ResizePlane();
+            //ResizePlane();
         }
     }
 
@@ -137,7 +138,7 @@ public class CreateSpace : MonoBehaviour
         Vector3 endPoint = _placedPoints[1].transform.position;
 
         float planeWidth = Vector3.Distance(startPoint, endPoint);
-        float planeHeight = Vector3.Distance(_placedPoints[2].transform.position, _placedPoints[3].transform.position);
+        float planeHeight = Vector3.Distance(_placedPoints[2].transform.position, _depthDrag.transform.position);
         _plane.transform.localScale = new Vector3((planeWidth * 5) - 0.02f, 1.0f, (planeHeight * 5) - 0.02f);
 
         _plane.transform.position =
@@ -161,7 +162,11 @@ public class CreateSpace : MonoBehaviour
 
 
     private bool StartDepthSelection()
-    {
+    {   
+        _placedPoints[0].transform.rotation = Quaternion.Euler(0,0,0);
+        _placedPoints[1].transform.rotation = Quaternion.Euler(0,0,0);
+        _depthDrag = Instantiate(corner, Vector3.Lerp(_placedPoints[0].transform.position, _placedPoints[1].transform.position, 0.5f), Quaternion.Euler(90, 0, 0));
+        _depthDrag.transform.position = new Vector3(_depthDrag.transform.position.x, _depthDrag.transform.position.y, _depthDrag.transform.position.z + 0.5f);
         _placedPoints.Add(Instantiate(corner, Vector3.Lerp(_placedPoints[0].transform.position, _placedPoints[1].transform.position, 0.5f), Quaternion.Euler(90, 0, 0)));
         _plane = Instantiate(planePrefab, _placedPoints[0].transform);
         //_placedPoints[0].GetComponent<MeshRenderer>().enabled = false;
@@ -169,6 +174,8 @@ public class CreateSpace : MonoBehaviour
         //_placedPoints[2].GetComponent<MeshRenderer>().enabled = false;
         lineRenderer.enabled = true;
         placementInteractable.gameObject.SetActive(false);
+        SetRotation();
+        ResizePlane();
         return true;
     }
 
