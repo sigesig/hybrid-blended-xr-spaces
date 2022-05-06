@@ -77,9 +77,7 @@ public class CreateSpace : MonoBehaviour
         CanDeletePreviousPoint(numberOfPositions);
         
         // Will handle plane create
-        Debug.Log("Before 2 check");
-        if (_placedPoints.Count != 2) return;
-        Debug.Log("After 2 check");
+        if (_placedPoints.Count >= 2) return;
         if (!_depthPhaseRunning)
         {
             _depthPhaseRunning = StartDepthSelection();
@@ -104,24 +102,19 @@ public class CreateSpace : MonoBehaviour
 
     private void ChangeDepthGesture()
     {
-        Debug.Log("PLZ WORK");
         if (Input.touchCount > 0)
         {
-            Debug.Log("I GOT A FUCKING TOUCH");
             var touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
                 _initialTouch = touch;
-                Debug.Log("SO IM FUCKING HERE");
             }
-            Debug.Log("Not in began");
             if (touch.phase == TouchPhase.Moved)
             {
                 Debug.Log("In move");
                 if (!_isScaling)
                 {
                     _initialDistanceBetween = touch.position.y - _initialTouch.position.y; //greater than 0 is up and less than zero is down
-                    Debug.Log("SO IM FUCKING HERE2");
                     if (_initialDistanceBetween > 0)
                     {
                         _positionChangeDirectionUp = true;
@@ -134,7 +127,6 @@ public class CreateSpace : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("PEnis SO IM FUCKING HERE3");
                     var currentDistanceBetween = touch.position.y - _initialTouch.position.y;
                     var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
                     if (_positionChangeDirectionUp)
