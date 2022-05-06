@@ -77,7 +77,7 @@ public class CreateSpace : MonoBehaviour
         CanDeletePreviousPoint(numberOfPositions);
         
         // Will handle plane create
-        if (_placedPoints.Count >= 2) return;
+        if (_placedPoints.Count < 2) return;
         if (!_depthPhaseRunning)
         {
             _depthPhaseRunning = StartDepthSelection();
