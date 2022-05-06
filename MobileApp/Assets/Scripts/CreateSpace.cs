@@ -102,7 +102,7 @@ public class CreateSpace : MonoBehaviour
 
     private void ChangeDepthGesture()
     {
-        Debug.Log("TOUCH ME PLZ" + Input.touchCount.ToString());
+        Debug.Log("TOUCH ME  " + Input.touchCount.ToString());
         if (Input.touchCount > 0)
         {
             Debug.Log("I got a touch");
