@@ -104,9 +104,11 @@ public class CreateSpace : MonoBehaviour
     {
         if (Input.touchCount > 0)
         {
+            Debug.Log("I got a touch");
             var touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
+                Debug.Log("INITIAL TOUCH");
                 _initialTouch = touch;
             }
             if (touch.phase == TouchPhase.Moved)
