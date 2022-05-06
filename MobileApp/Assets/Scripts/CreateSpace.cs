@@ -77,6 +77,7 @@ public class CreateSpace : MonoBehaviour
         CanDeletePreviousPoint(numberOfPositions);
         
         // Will handle plane create
+        Debug.Log(_placedPoints.Count.ToString());
         if (_placedPoints.Count < 2) return;
         if (!_depthPhaseRunning)
         {
