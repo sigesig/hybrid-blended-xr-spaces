@@ -121,12 +121,6 @@ public class Networking : MonoBehaviourPunCallbacks
     {
         Debug.Log("I JUST CREATED A ROOM");
     }
-
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("Master: " + PhotonNetwork.IsMasterClient + " | Players In Room: " + PhotonNetwork.CurrentRoom.PlayerCount + " | RoomName: " + PhotonNetwork.CurrentRoom.Name + " Region: " + PhotonNetwork.CloudRegion);
-    }
-
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
