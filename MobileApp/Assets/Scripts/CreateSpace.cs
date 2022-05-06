@@ -77,7 +77,6 @@ public class CreateSpace : MonoBehaviour
         CanDeletePreviousPoint(numberOfPositions);
         
         // Will handle plane create
-        Debug.Log(_placedPoints.Count.ToString());
         if (_placedPoints.Count < 2) return;
         if (!_depthPhaseRunning)
         {
@@ -103,6 +102,7 @@ public class CreateSpace : MonoBehaviour
 
     private void ChangeDepthGesture()
     {
+        Debug.Log("TOUCH ME PLZ" + Input.touchCount.ToString());
         if (Input.touchCount > 0)
         {
             Debug.Log("I got a touch");
