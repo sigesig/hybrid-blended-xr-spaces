@@ -103,49 +103,48 @@ public class CreateSpace : MonoBehaviour
     private void ChangeDepthGesture()
     {
         Debug.Log("TOUCH ME  " + Input.touchCount.ToString());
-        if (Input.touchCount > 0)
+        if (Input.touchCount <= 0) return;
+        
+        Debug.Log("I got a touch");
+        var touch = Input.GetTouch(0);
+        if (touch.phase == TouchPhase.Began)
         {
-            Debug.Log("I got a touch");
-            var touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began)
+            Debug.Log("INITIAL TOUCH");
+            _initialTouch = touch;
+        }
+        if (touch.phase == TouchPhase.Moved)
+        {
+            Debug.Log("In move");
+            if (!_isScaling)
             {
-                Debug.Log("INITIAL TOUCH");
-                _initialTouch = touch;
-            }
-            if (touch.phase == TouchPhase.Moved)
-            {
-                Debug.Log("In move");
-                if (!_isScaling)
+                _initialDistanceBetween = touch.position.y - _initialTouch.position.y; //greater than 0 is up and less than zero is down
+                if (_initialDistanceBetween > 0)
                 {
-                    _initialDistanceBetween = touch.position.y - _initialTouch.position.y; //greater than 0 is up and less than zero is down
-                    if (_initialDistanceBetween > 0)
-                    {
-                        _positionChangeDirectionUp = true;
-                    }
-                    else
-                    {
-                        _positionChangeDirectionUp = false;
-                    }
-                    _isScaling = !Mathf.Approximately(_initialDistanceBetween, 0);
+                    _positionChangeDirectionUp = true;
                 }
                 else
                 {
-                    var currentDistanceBetween = touch.position.y - _initialTouch.position.y;
-                    var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
-                    if (_positionChangeDirectionUp)
-                    {
-                        _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
-                    }
-                    else
-                    {
-                        _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
-                    }
+                    _positionChangeDirectionUp = false;
                 }
+                _isScaling = !Mathf.Approximately(_initialDistanceBetween, 0);
             }
             else
             {
-                _isScaling = false;
+                var currentDistanceBetween = touch.position.y - _initialTouch.position.y;
+                var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
+                if (_positionChangeDirectionUp)
+                {
+                    _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
+                }
+                else
+                {
+                    _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
+                }
             }
+        }
+        else
+        {
+            _isScaling = false;
         }
     }
     
