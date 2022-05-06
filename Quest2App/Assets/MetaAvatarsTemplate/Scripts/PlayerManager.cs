@@ -39,6 +39,7 @@ namespace Chiligames.MetaAvatars
             //apparently it does not work if you guard for avatar != null??
             avatar.transform.position = centerEyeAnchor.transform.position;
             avatar.transform.rotation = centerEyeAnchor.transform.rotation;
+            
         }
 
         public override void OnJoinedRoom()
