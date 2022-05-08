@@ -8,12 +8,11 @@ namespace PhotonUtil
         [SerializeField] Transform moveDestination;
     
 
-        public static void MovePlaneToCenter(Transform photonPlaneTransform, Transform playerTransform, Transform planeTransform)
+        public static void MovePlaneToCenter(Transform photonPlaneTransform, Transform playerTransform)
         {
 
             playerTransform.parent = photonPlaneTransform;
-
-            photonPlaneTransform.position = new Vector3(0, 0, 0);
+            
             photonPlaneTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
             playerTransform.parent = null;
 
