@@ -37,6 +37,7 @@ public class SessionInProgress : MonoBehaviour
      */
     private void EndSession()
     {
+        Networking.LeaveRoom();
         currentSession.gameObject.SetActive(false);
         sessionCanvas.gameObject.SetActive(true);
     }
