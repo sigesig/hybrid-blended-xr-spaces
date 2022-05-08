@@ -189,10 +189,11 @@ public class CreateSpace : MonoBehaviour
         _depthPointGameObject.transform.position = new Vector3(_depthPointGameObject.transform.position.x, _depthPointGameObject.transform.position.y, _depthPointGameObject.transform.position.z + 0.1f);
         _placedPoints.Add(Instantiate(corner, Vector3.Lerp(_placedPoints[0].transform.position, _placedPoints[1].transform.position, 0.5f), Quaternion.Euler(90, 0, 0)));
         _plane = Instantiate(planePrefab, _placedPoints[0].transform);
-        //_placedPoints[0].GetComponent<MeshRenderer>().enabled = false;
-        //_placedPoints[1].GetComponent<MeshRenderer>().enabled = false;
-        //_placedPoints[2].GetComponent<MeshRenderer>().enabled = false;
-        lineRenderer.enabled = true;
+        _placedPoints[0].GetComponent<MeshRenderer>().enabled = false;
+        _placedPoints[1].GetComponent<MeshRenderer>().enabled = false;
+        _placedPoints[2].GetComponent<MeshRenderer>().enabled = false;
+        _depthPointGameObject.GetComponent<MeshRenderer>().enabled = false;
+        lineRenderer.enabled = false;
         placementInteractable.gameObject.SetActive(false);
         SetRotation();
         ResizePlane();
@@ -287,6 +288,7 @@ public class CreateSpace : MonoBehaviour
         spaceCanvas.gameObject.SetActive(false);
         placementInteractable.gameObject.SetActive(false);
         sessionCanvas.gameObject.SetActive(true);
+        _depthPhaseRunning = false;
         if (_plane != null)
         {
             Destroy(_plane);
@@ -299,18 +301,17 @@ public class CreateSpace : MonoBehaviour
     */
     private void DeleteLastPlacedPoint()
     {
-        lineRenderer.positionCount = 0;
-        if (_plane != null)
+        if (_depthPhaseRunning)
         {
-            Destroy(_plane);
+            if (_plane != null)
+            {
+                Destroy(_plane);
+            }
+            lineRenderer.enabled = true;
+            placementInteractable.gameObject.SetActive(true);
+            _depthPhaseRunning = false;
+            return;
         }
-        RemoveAllPoints();
-        lineRenderer.enabled = true;
-        placementInteractable.gameObject.SetActive(true);
-        _depthPhaseRunning = false;
-
-
-        /* USEFULL if we want to make deletelast point actually delete last point and not interative 
         GameObject pointObj = null;
         if (_placedPoints.Any())
         {
@@ -329,7 +330,7 @@ public class CreateSpace : MonoBehaviour
         }
         lineRenderer.positionCount = newPositions.Length;
         lineRenderer.SetPositions(newPositions);
-        */
+        
     }
 
     #endregion
