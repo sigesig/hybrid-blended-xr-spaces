@@ -106,14 +106,13 @@ public class CreateSpace : MonoBehaviour
         dragGesture.onStart += (s) =>
         {
             Debug.Log("Drag started");
-            _initialTouch = s.position;
         };
         
         dragGesture.onUpdated += (s) =>
         {
             if (!_isScaling)
             {
-                _initialDistanceBetween = s.position.y - _initialTouch.y; //greater than 0 is up and less than zero is down
+                _initialDistanceBetween = s.position.y - s.startPosition.y; //greater than 0 is up and less than zero is down
                 if (_initialDistanceBetween > 0)
                 {
                     _positionChangeDirectionUp = true;
@@ -126,15 +125,15 @@ public class CreateSpace : MonoBehaviour
             }
             else
             {
-                var currentDistanceBetween = s.position.y - _initialTouch.y;
+                var currentDistanceBetween = s.position.y - s.startPosition.y;
                 var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
                 if (_positionChangeDirectionUp)
                 {
-                    _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
+                    _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
                 }
                 else
                 {
-                    _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
+                    _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
                 }
             }
         };
