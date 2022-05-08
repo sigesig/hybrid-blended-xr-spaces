@@ -75,7 +75,7 @@ public class CreateSpace : MonoBehaviour
         var numberOfPositions = lineRenderer.positionCount;
         IsPlaneCreationPossible(numberOfPositions);
         CanDeletePreviousPoint(numberOfPositions);
-        
+        Debug.Log("This many touches: " + Input.touchCount.ToString());
         // Will handle plane create
         if (_placedPoints.Count < 2) return;
         if (!_depthPhaseRunning)
