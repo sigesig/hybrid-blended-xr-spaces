@@ -205,7 +205,7 @@ public class CreateSpace : MonoBehaviour
         Transform temporaryPlane = EndDefinePhase();
         
         _planeObjectPhoton = (GameObject)PhotonNetwork.Instantiate("DeskPlaneInteractible", temporaryPlane.position, temporaryPlane.rotation * Quaternion.Euler(0, 180, 0), 0) ;
-        _planeObjectPhoton.transform.localScale = (temporaryPlane.transform.localScale/50);
+        _planeObjectPhoton.transform.localScale = (temporaryPlane.transform.localScale/100);
         
         
         // Move plane
