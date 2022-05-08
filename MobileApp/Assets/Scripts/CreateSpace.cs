@@ -133,11 +133,11 @@ public class CreateSpace : MonoBehaviour
                 var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
                 if (_positionChangeDirectionUp)
                 {
-                    _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * scaleFactor;
+                    _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
                 }
                 else
                 {
-                    _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * scaleFactor;
+                    _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
                 }
             }
         };
