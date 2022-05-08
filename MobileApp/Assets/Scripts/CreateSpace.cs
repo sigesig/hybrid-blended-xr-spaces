@@ -11,6 +11,7 @@ using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.Interaction.Toolkit.AR;
 using Util;
 using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 /// <summary>
@@ -33,6 +34,7 @@ public class CreateSpace : MonoBehaviour
     [SerializeField] public ARPlaneManager arPlaneManager;
     [SerializeField] public GameObject corner;
     [SerializeField] public GameObject planePrefab;
+    [SerializeField] public ARGestureInteractor gestureInteractable;
     #endregion
     
     #region Private variables
@@ -44,7 +46,7 @@ public class CreateSpace : MonoBehaviour
 
     //Used for handling the resize 
     private ARRaycastManager _arRaycastManager;
-    private Touch _initialTouch;
+    private Vector3 _initialTouch;
     private GameObject _planeObjectPhoton;
     private bool _isScaling = false;
     private Vector3 _currentUpVector3;
@@ -60,6 +62,7 @@ public class CreateSpace : MonoBehaviour
     
     void Start()
     {
+        gestureInteractable.dragGestureRecognizer.onGestureStarted += DragGestureRecognizerStarted;
         //Space creation setup
         placementInteractable.gameObject.SetActive(true);
         placementInteractable.objectPlaced.AddListener(DrawLine);
@@ -75,14 +78,12 @@ public class CreateSpace : MonoBehaviour
         var numberOfPositions = lineRenderer.positionCount;
         IsPlaneCreationPossible(numberOfPositions);
         CanDeletePreviousPoint(numberOfPositions);
-        
         // Will handle plane create
-        if (_placedPoints.Count != 2) return;
+        if (_placedPoints.Count < 2) return;
         if (!_depthPhaseRunning)
         {
             _depthPhaseRunning = StartDepthSelection();
         }
-        ChangeDepthGesture();
         SetRotation();
         if (_isScaling)
         {
@@ -99,58 +100,56 @@ public class CreateSpace : MonoBehaviour
         var pointIndex = lineRenderer.positionCount - 1;
         lineRenderer.SetPosition(pointIndex, args.placementObject.transform.position);
     }
-
-    private void ChangeDepthGesture()
+    
+    private void DragGestureRecognizerStarted(Gesture<DragGesture> dragGesture)
     {
-        Debug.Log("PLZ WORK");
-        if (Input.touchCount > 0)
+        const float acceleration = 0.1f;
+        if (_plane == null)
         {
-            var touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began)
+            return;
+        }
+        dragGesture.onStart += (s) =>
+        {
+            Debug.Log("Drag started");
+        };
+        
+        dragGesture.onUpdated += (s) =>
+        {
+            if (!_isScaling)
             {
-                _initialTouch = touch;
-                Debug.Log("SO IM FUCKING HERE");
-            }
-            Debug.Log("Not in began");
-            if (touch.phase == TouchPhase.Moved)
-            {
-                Debug.Log("In move");
-                if (!_isScaling)
-                {
-                    _initialDistanceBetween = touch.position.y - _initialTouch.position.y; //greater than 0 is up and less than zero is down
-                    Debug.Log("SO IM FUCKING HERE2");
-                    if (_initialDistanceBetween > 0)
-                    {
-                        _positionChangeDirectionUp = true;
-                    }
-                    else
-                    {
-                        _positionChangeDirectionUp = false;
-                    }
-                    _isScaling = !Mathf.Approximately(_initialDistanceBetween, 0);
-                }
-                else
-                {
-                    Debug.Log("PEnis SO IM FUCKING HERE3");
-                    var currentDistanceBetween = touch.position.y - _initialTouch.position.y;
-                    var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
-                    if (_positionChangeDirectionUp)
-                    {
-                        _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
-                    }
-                    else
-                    {
-                        _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
-                    }
-                }
+                _initialDistanceBetween = s.position.y - s.startPosition.y; //greater than 0 is up and less than zero is down
+                _isScaling = !Mathf.Approximately(_initialDistanceBetween, 0);
             }
             else
             {
-                _isScaling = false;
+                var currentDistanceBetween = s.position.y - s.startPosition.y;
+                if (currentDistanceBetween > 0)
+                {
+                    _positionChangeDirectionUp = true;
+                }
+                else
+                {
+                    _positionChangeDirectionUp = false;
+                }
+                var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
+                if (_positionChangeDirectionUp)
+                {
+                    _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor * acceleration;
+                }
+                else
+                {
+                    _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor * acceleration;
+                }
             }
-        }
+        };
+        
+        dragGesture.onFinished += (s) =>
+        {
+            _isScaling = false;
+        };
+        
     }
-    
+
     private void ResizePlane()
     {
         Vector3 startPoint = _placedPoints[0].transform.position;
@@ -158,7 +157,8 @@ public class CreateSpace : MonoBehaviour
 
         float planeWidth = Vector3.Distance(startPoint, endPoint);
         float planeHeight = Vector3.Distance(_placedPoints[2].transform.position, _depthPointGameObject.transform.position);
-        _plane.transform.localScale = new Vector3((planeWidth * 10), (planeHeight * 5),1.0f );
+        Debug.Log("Height is: " + planeHeight);
+        _plane.transform.localScale = new Vector3((planeWidth * 10), _plane.transform.localScale.y ,(planeHeight * 10) );
 
         _plane.transform.position =
             _placedPoints[0].transform.position
@@ -189,10 +189,11 @@ public class CreateSpace : MonoBehaviour
         _depthPointGameObject.transform.position = new Vector3(_depthPointGameObject.transform.position.x, _depthPointGameObject.transform.position.y, _depthPointGameObject.transform.position.z + 0.1f);
         _placedPoints.Add(Instantiate(corner, Vector3.Lerp(_placedPoints[0].transform.position, _placedPoints[1].transform.position, 0.5f), Quaternion.Euler(90, 0, 0)));
         _plane = Instantiate(planePrefab, _placedPoints[0].transform);
-        //_placedPoints[0].GetComponent<MeshRenderer>().enabled = false;
-        //_placedPoints[1].GetComponent<MeshRenderer>().enabled = false;
-        //_placedPoints[2].GetComponent<MeshRenderer>().enabled = false;
-        lineRenderer.enabled = true;
+        _placedPoints[0].GetComponent<MeshRenderer>().enabled = false;
+        _placedPoints[1].GetComponent<MeshRenderer>().enabled = false;
+        _placedPoints[2].GetComponent<MeshRenderer>().enabled = false;
+        _depthPointGameObject.GetComponent<MeshRenderer>().enabled = false;
+        lineRenderer.enabled = false;
         placementInteractable.gameObject.SetActive(false);
         SetRotation();
         ResizePlane();
@@ -258,6 +259,7 @@ public class CreateSpace : MonoBehaviour
             Destroy(pointObj);
         }
     }
+    
 
     #endregion
 
@@ -274,6 +276,13 @@ public class CreateSpace : MonoBehaviour
         RemoveAllPoints();
         spaceCanvas.gameObject.SetActive(false);
         currentSession.gameObject.SetActive(true);
+        placementInteractable.gameObject.SetActive(false);
+        _depthPhaseRunning = false;
+        if (_plane != null)
+        {
+            Destroy(_plane);
+        }
+        
     }
     
     /*
@@ -286,6 +295,7 @@ public class CreateSpace : MonoBehaviour
         spaceCanvas.gameObject.SetActive(false);
         placementInteractable.gameObject.SetActive(false);
         sessionCanvas.gameObject.SetActive(true);
+        _depthPhaseRunning = false;
         if (_plane != null)
         {
             Destroy(_plane);
@@ -298,18 +308,17 @@ public class CreateSpace : MonoBehaviour
     */
     private void DeleteLastPlacedPoint()
     {
-        lineRenderer.positionCount = 0;
-        if (_plane != null)
+        if (_depthPhaseRunning)
         {
-            Destroy(_plane);
+            if (_plane != null)
+            {
+                Destroy(_plane);
+            }
+            lineRenderer.enabled = true;
+            placementInteractable.gameObject.SetActive(true);
+            _depthPhaseRunning = false;
+            return;
         }
-        RemoveAllPoints();
-        lineRenderer.enabled = true;
-        placementInteractable.gameObject.SetActive(true);
-        _depthPhaseRunning = false;
-
-
-        /* USEFULL if we want to make deletelast point actually delete last point and not interative 
         GameObject pointObj = null;
         if (_placedPoints.Any())
         {
@@ -328,7 +337,7 @@ public class CreateSpace : MonoBehaviour
         }
         lineRenderer.positionCount = newPositions.Length;
         lineRenderer.SetPositions(newPositions);
-        */
+        
     }
 
     #endregion
