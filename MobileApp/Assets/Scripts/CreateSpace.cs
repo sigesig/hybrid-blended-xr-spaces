@@ -103,6 +103,7 @@ public class CreateSpace : MonoBehaviour
     
     private void DragGestureRecognizerStarted(Gesture<DragGesture> dragGesture)
     {
+        const float acceleration = 0.01f;
         if (_plane == null)
         {
             return;
@@ -133,11 +134,11 @@ public class CreateSpace : MonoBehaviour
                 var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
                 if (_positionChangeDirectionUp)
                 {
-                    _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
+                    _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor * acceleration;
                 }
                 else
                 {
-                    _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
+                    _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor * acceleration;
                 }
             }
         };
