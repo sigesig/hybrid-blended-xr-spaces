@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 399447528486458259}
   - component: {fileID: 8473043702417104560}
   - component: {fileID: 3261634808079426275}
+  - component: {fileID: 6247317130005271069}
   m_Layer: 0
   m_Name: CubeAvatar
   m_TagString: Untagged
@@ -153,3 +154,15 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &6247317130005271069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958443391923844324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290d393ff13a52e4b83800e41a8d21c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

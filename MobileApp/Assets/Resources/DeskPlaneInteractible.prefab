@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: -8624762948589462441}
   - component: {fileID: -4894830475989297057}
   - component: {fileID: -941142169144149107}
+  - component: {fileID: -2447793034193997991}
   m_Layer: 0
   m_Name: DeskPlaneInteractible
   m_TagString: whiteboard
@@ -273,6 +274,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e88137560ad4b7f458d670d2056d7ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2447793034193997991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244062007442054365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d445c0d6642684144b92837aa0d2bc80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5257734806956444937
