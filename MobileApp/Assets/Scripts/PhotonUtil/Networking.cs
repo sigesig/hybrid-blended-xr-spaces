@@ -7,9 +7,25 @@ using UnityEngine;
 
 public class Networking : MonoBehaviourPunCallbacks
 {
+    [SerializeField] public Camera ARCamera;
+    
     private static readonly string _gameVersion = "1";
     private static bool _isConnected = false;
     private static List<RoomInfo> _rooms = new List<RoomInfo>();
+    
+    private static GameObject line;
+    private LineRenderer lineRenderer;
+    private bool isInRoom = false;
+    private GameObject avatar;
+    
+    void Update()
+    {
+        if(isInRoom) {
+            avatar.transform.position = ARCamera.transform.position;
+            avatar.transform.rotation = ARCamera.transform.rotation;
+        }
+    }
+    
     #region Public Methods
     /// <summary>
     /// Used to join a Photon room
@@ -64,6 +80,21 @@ public class Networking : MonoBehaviourPunCallbacks
         }
     }
 
+    public static GameObject GetLaserLine()
+    {
+        return line;
+    }
+
+
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("Master: " + PhotonNetwork.IsMasterClient + " | Players In Room: " + PhotonNetwork.CurrentRoom.PlayerCount + " | RoomName: " + PhotonNetwork.CurrentRoom.Name + " Region: " + PhotonNetwork.CloudRegion);
+        avatar = PhotonNetwork.Instantiate("CubeAvatar", ARCamera.transform.position, ARCamera.transform.rotation);
+        line = PhotonNetwork.Instantiate("Laser", new Vector3(0,0,0), Quaternion.identity);
+        //line.SetActive(false);
+        isInRoom = true;
+    }
+    
     /// <summary>
     /// Tells if the device is connected to the master server 
     /// </summary>
