@@ -10,30 +10,42 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     ARRaycastManager m_RaycastManager;
-
-    List<ARRaycastHit> m_Hits = new List<ARRaycastHit>();
-    private GameObject avatar;
     [SerializeField]
     public Camera ARCamera;
 
+    List<ARRaycastHit> m_Hits = new List<ARRaycastHit>();
+    private GameObject avatar;
+    private GameObject line;
+    private LineRenderer lineRenderer;
+    private bool isInRoom = false;
+
     void Update() {
-        Debug.Log("Avatar: " + avatar);
-        avatar.transform.position = ARCamera.transform.position;
-        avatar.transform.rotation = ARCamera.transform.rotation;
+        if(isInRoom) {
+            avatar.transform.position = ARCamera.transform.position;
+            avatar.transform.rotation = ARCamera.transform.rotation;
+            isPointingAtSomething();
+        }
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("Master: " + PhotonNetwork.IsMasterClient + " | Players In Room: " + PhotonNetwork.CurrentRoom.PlayerCount + " | RoomName: " + PhotonNetwork.CurrentRoom.Name + " Region: " + PhotonNetwork.CloudRegion);
         avatar = PhotonNetwork.Instantiate("CubeAvatar", ARCamera.transform.position, ARCamera.transform.rotation);
+        line = PhotonNetwork.Instantiate("Laser", new Vector3(0,0,0), Quaternion.identity);
+        lineRenderer = line.GetComponent<LineRenderer>();
+        Debug.Log("Line renderer: " + lineRenderer);
+        //line.SetActive(false);
+        isInRoom = true;
     }
 
-    private bool isPointingAtSomething() {
-        if(Input.touchCount == 1) {
+    private void isPointingAtSomething() {
+        if(Input.touchCount > 0) {
+            Debug.Log("LASER: currently touching");
             if(m_RaycastManager.Raycast(Input.GetTouch(0).position, m_Hits)) {
-                return false;
+                Debug.Log("LASER: hit an object: " + m_Hits[0]);
+                lineRenderer.SetPosition(0, ARCamera.transform.position);
+                lineRenderer.SetPosition(1, m_Hits[0].pose.position);
             }
         }
-        return false;
     }
 }
