@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -42,9 +43,18 @@ public class SessionInProgress : MonoBehaviour
         _laserLine = Networking.GetLaserLine();
         _lineRenderer = _laserLine.GetComponent<LineRenderer>();
         gestureInteractable.dragGestureRecognizer.onGestureStarted += DragGestureRecognizerStarted;
+        gestureInteractable.tapGestureRecognizer.onGestureStarted += TapGestureRecognizerStarted;
         muteUnmuteButton.onClick.AddListener(VoiceChatControl);
         exitSession.onClick.AddListener(EndSession);
         //recorder.IsRecording = !_voiceChatIsMuted;
+    }
+
+    private void Update()
+    {
+        if (_laserPointerActive)
+        {
+            _lineRenderer.SetPosition(0, ARCamera.transform.position);
+        }
     }
 
     /*
@@ -82,31 +92,40 @@ public class SessionInProgress : MonoBehaviour
 
         dragGesture.onStart += (s) =>
         {
-            HandleLaserPointer(s);
+            HandleLaserPointer(s.position);
             
         };
 
         dragGesture.onUpdated += (s) =>
         {
-            HandleLaserPointer(s);
+            HandleLaserPointer(s.position);
 
         };
     }
 
-    private void HandleLaserPointer(DragGesture s)
+    private void HandleLaserPointer(Vector2 s)
     {
         if (!_laserPointerActive) return;
             
         Debug.Log("LASER: currently touching");
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
-        if (raycastManager.Raycast(s.position, hits, TrackableType.PlaneWithinPolygon))
+        if (raycastManager.Raycast(s, hits, TrackableType.PlaneWithinPolygon))
         {
             Debug.Log("LASER: hit an object: " + hits[0]);
             _lineRenderer.SetPosition(0, ARCamera.transform.position);
             _lineRenderer.SetPosition(1, hits[0].pose.position);
         }
     }
-    
+
+    private void TapGestureRecognizerStarted(Gesture<TapGesture> tapGesture)
+    {
+        tapGesture.onStart += (s) =>
+        {
+            HandleLaserPointer(s.startPosition);
+        };
+        
+    }
+
 
     private void LaserPointerSwitchButton()
     {

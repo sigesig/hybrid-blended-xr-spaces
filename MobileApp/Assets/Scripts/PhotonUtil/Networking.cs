@@ -91,7 +91,7 @@ public class Networking : MonoBehaviourPunCallbacks
         Debug.Log("Master: " + PhotonNetwork.IsMasterClient + " | Players In Room: " + PhotonNetwork.CurrentRoom.PlayerCount + " | RoomName: " + PhotonNetwork.CurrentRoom.Name + " Region: " + PhotonNetwork.CloudRegion);
         avatar = PhotonNetwork.Instantiate("CubeAvatar", ARCamera.transform.position, ARCamera.transform.rotation);
         line = PhotonNetwork.Instantiate("Laser", new Vector3(0,0,0), Quaternion.identity);
-        //line.SetActive(false);
+        line.SetActive(false);
         isInRoom = true;
     }
     
