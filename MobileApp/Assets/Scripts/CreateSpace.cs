@@ -157,7 +157,7 @@ public class CreateSpace : MonoBehaviour
         float planeWidth = Vector3.Distance(startPoint, endPoint);
         float planeHeight = Vector3.Distance(_placedPoints[2].transform.position, _depthPointGameObject.transform.position);
         Debug.Log("Height is: " + planeHeight);
-        _plane.transform.localScale = new Vector3((planeWidth * 10), _plane.transform.localScale.y ,(planeHeight * 5) );
+        _plane.transform.localScale = new Vector3((planeWidth * 10), _plane.transform.localScale.y ,(planeHeight * 10) );
 
         _plane.transform.position =
             _placedPoints[0].transform.position
