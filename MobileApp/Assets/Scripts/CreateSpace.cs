@@ -100,9 +100,13 @@ public class CreateSpace : MonoBehaviour
         var pointIndex = lineRenderer.positionCount - 1;
         lineRenderer.SetPosition(pointIndex, args.placementObject.transform.position);
     }
-
+    
     private void DragGestureRecognizerStarted(Gesture<DragGesture> dragGesture)
     {
+        if (_plane == null)
+        {
+            return;
+        }
         dragGesture.onStart += (s) =>
         {
             Debug.Log("Drag started");
@@ -129,11 +133,11 @@ public class CreateSpace : MonoBehaviour
                 var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
                 if (_positionChangeDirectionUp)
                 {
-                    _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
+                    _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * scaleFactor;
                 }
                 else
                 {
-                    _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
+                    _depthPointGameObject.transform.position += _depthPointGameObject.transform.forward * scaleFactor;
                 }
             }
         };
@@ -152,6 +156,7 @@ public class CreateSpace : MonoBehaviour
 
         float planeWidth = Vector3.Distance(startPoint, endPoint);
         float planeHeight = Vector3.Distance(_placedPoints[2].transform.position, _depthPointGameObject.transform.position);
+        Debug.Log("Height is: " + planeHeight);
         _plane.transform.localScale = new Vector3((planeWidth * 10), (planeHeight * 5),1.0f );
 
         _plane.transform.position =
