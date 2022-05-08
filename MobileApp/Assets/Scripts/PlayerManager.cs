@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.XR.Interaction.Toolkit.AR;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -8,11 +9,8 @@ using UnityEngine.XR.ARFoundation;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    ARRaycastManager m_RaycastManager;
-    [SerializeField]
-    public Camera ARCamera;
-
+    [SerializeField] ARRaycastManager m_RaycastManager;
+    [SerializeField] public Camera ARCamera;
     List<ARRaycastHit> m_Hits = new List<ARRaycastHit>();
     private GameObject avatar;
     private GameObject line;
@@ -33,7 +31,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         avatar = PhotonNetwork.Instantiate("CubeAvatar", ARCamera.transform.position, ARCamera.transform.rotation);
         line = PhotonNetwork.Instantiate("Laser", new Vector3(0,0,0), Quaternion.identity);
         lineRenderer = line.GetComponent<LineRenderer>();
-        Debug.Log("Line renderer: " + lineRenderer);
         //line.SetActive(false);
         isInRoom = true;
     }
