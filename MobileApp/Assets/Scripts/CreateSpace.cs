@@ -33,6 +33,7 @@ public class CreateSpace : MonoBehaviour
     [SerializeField] public ARPlaneManager arPlaneManager;
     [SerializeField] public GameObject corner;
     [SerializeField] public GameObject planePrefab;
+    [SerializeField] public ARGestureInteractor gestureInteractable;
     #endregion
     
     #region Private variables
@@ -75,7 +76,6 @@ public class CreateSpace : MonoBehaviour
         var numberOfPositions = lineRenderer.positionCount;
         IsPlaneCreationPossible(numberOfPositions);
         CanDeletePreviousPoint(numberOfPositions);
-        Debug.Log("This many touches: " + Input.touchCount.ToString());
         // Will handle plane create
         if (_placedPoints.Count < 2) return;
         if (!_depthPhaseRunning)
