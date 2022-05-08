@@ -72,19 +72,19 @@ public class SessionInProgress : MonoBehaviour
      */
     private void VoiceChatControl()
     {
-        if (_voiceChatIsMuted)
+        if (_laserPointerActive)
         {
-            _voiceChatIsMuted = !_voiceChatIsMuted;
+            LaserPointerSwitchButton();
 
             muteUnmuteButton.GetComponent<Image>().sprite = unMuted;
 
             return;
         }
 
-        _voiceChatIsMuted = !_voiceChatIsMuted;
+        LaserPointerSwitchButton();
         muteUnmuteButton.GetComponent<Image>().sprite = muted;
 
-        recorder.IsRecording = !_voiceChatIsMuted;
+        //recorder.IsRecording = !_voiceChatIsMuted;
     }
 
     private void DragGestureRecognizerStarted(Gesture<DragGesture> dragGesture)
