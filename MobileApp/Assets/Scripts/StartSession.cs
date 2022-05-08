@@ -42,6 +42,7 @@ public class StartSession : MonoBehaviour
     
     void Update()
     {
+        Debug.Log("This many touches: " + Input.touchCount.ToString());
         InvokeRepeating(nameof(NoMasterConnection), 1.0f, 1.0f);
         bool connectionStatus = Networking.IsConnected();
         if (connectionStatus)
