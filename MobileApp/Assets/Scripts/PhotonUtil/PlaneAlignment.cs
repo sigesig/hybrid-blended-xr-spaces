@@ -11,7 +11,6 @@ namespace PhotonUtil
         public static void MovePlaneToCenter(Transform photonPlaneTransform, Transform playerTransform, Transform planeTransform)
         {
             playerTransform.parent = planeTransform;
-
             photonPlaneTransform.position = new Vector3(0, 0, 0);
             photonPlaneTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
             playerTransform.parent = null;

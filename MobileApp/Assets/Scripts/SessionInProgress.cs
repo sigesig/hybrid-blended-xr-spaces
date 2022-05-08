@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Photon.Voice.Unity;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
 
 public class SessionInProgress : MonoBehaviour
 {
