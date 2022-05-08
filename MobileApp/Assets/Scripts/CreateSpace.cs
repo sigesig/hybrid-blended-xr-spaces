@@ -276,6 +276,13 @@ public class CreateSpace : MonoBehaviour
         RemoveAllPoints();
         spaceCanvas.gameObject.SetActive(false);
         currentSession.gameObject.SetActive(true);
+        placementInteractable.gameObject.SetActive(false);
+        _depthPhaseRunning = false;
+        if (_plane != null)
+        {
+            Destroy(_plane);
+        }
+        
     }
     
     /*
