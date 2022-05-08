@@ -103,7 +103,7 @@ public class CreateSpace : MonoBehaviour
     
     private void DragGestureRecognizerStarted(Gesture<DragGesture> dragGesture)
     {
-        const float acceleration = 0.2f;
+        const float acceleration = 0.1f;
         if (_plane == null)
         {
             return;
