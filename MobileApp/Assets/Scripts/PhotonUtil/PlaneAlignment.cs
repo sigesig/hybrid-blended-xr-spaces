@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 
 namespace PhotonUtil
 {
@@ -6,14 +7,20 @@ namespace PhotonUtil
     {
         [SerializeField] Transform spawnDestination;
         [SerializeField] Transform moveDestination;
+        [SerializeField] ARSessionOrigin origin;
     
 
-        public static void MovePlaneToCenter(Transform photonPlaneTransform, Transform playerTransform, Transform planeTransform)
+        public static void MovePlaneToCenter(Transform planeTransform, Transform playerTransform)
         {
+            var planePos = planeTransform.position;
+            planeTransform.position = new Vector3(0,0,0);
+            playerTransform.parent.position = -planePos;
+            /*
             playerTransform.parent = planeTransform;
-            photonPlaneTransform.position = new Vector3(0, 0, 0);
-            photonPlaneTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            planeTransform.position = new Vector3(0, 0, 0);
+            planeTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
             playerTransform.parent = null;
+            */
 
         }
 
