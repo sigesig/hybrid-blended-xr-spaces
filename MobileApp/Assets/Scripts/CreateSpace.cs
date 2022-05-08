@@ -61,6 +61,7 @@ public class CreateSpace : MonoBehaviour
     
     void Start()
     {
+        gestureInteractable.dragGestureRecognizer.onGestureStarted += DragGestureRecognizerStarted;
         //Space creation setup
         placementInteractable.gameObject.SetActive(true);
         placementInteractable.objectPlaced.AddListener(DrawLine);
@@ -254,6 +255,25 @@ public class CreateSpace : MonoBehaviour
         {
             Destroy(pointObj);
         }
+    }
+    
+    private void DragGestureRecognizerStarted(Gesture<DragGesture> dragGesture)
+    {
+        dragGesture.onStart += (s) =>
+        {
+            Debug.Log("Drag started");
+        };
+        
+        dragGesture.onUpdated += (s) =>
+        {
+            Debug.Log("Drag Updated");
+        };
+        
+        dragGesture.onFinished += (s) =>
+        {
+            Debug.Log("Drag finished");
+        };
+        
     }
 
     #endregion
