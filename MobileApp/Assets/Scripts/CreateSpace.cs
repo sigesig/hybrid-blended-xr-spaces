@@ -118,7 +118,12 @@ public class CreateSpace : MonoBehaviour
             if (!_isScaling)
             {
                 _initialDistanceBetween = s.position.y - s.startPosition.y; //greater than 0 is up and less than zero is down
-                if (_initialDistanceBetween > 0)
+                _isScaling = !Mathf.Approximately(_initialDistanceBetween, 0);
+            }
+            else
+            {
+                var currentDistanceBetween = s.position.y - s.startPosition.y;
+                if (currentDistanceBetween > 0)
                 {
                     _positionChangeDirectionUp = true;
                 }
@@ -126,11 +131,6 @@ public class CreateSpace : MonoBehaviour
                 {
                     _positionChangeDirectionUp = false;
                 }
-                _isScaling = !Mathf.Approximately(_initialDistanceBetween, 0);
-            }
-            else
-            {
-                var currentDistanceBetween = s.position.y - s.startPosition.y;
                 var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
                 if (_positionChangeDirectionUp)
                 {
