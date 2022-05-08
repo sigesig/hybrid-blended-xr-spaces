@@ -11,6 +11,7 @@ using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.Interaction.Toolkit.AR;
 using Util;
 using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 /// <summary>
@@ -45,7 +46,7 @@ public class CreateSpace : MonoBehaviour
 
     //Used for handling the resize 
     private ARRaycastManager _arRaycastManager;
-    private Touch _initialTouch;
+    private Vector3 _initialTouch;
     private GameObject _planeObjectPhoton;
     private bool _isScaling = false;
     private Vector3 _currentUpVector3;
@@ -83,7 +84,6 @@ public class CreateSpace : MonoBehaviour
         {
             _depthPhaseRunning = StartDepthSelection();
         }
-        ChangeDepthGesture();
         SetRotation();
         if (_isScaling)
         {
@@ -101,24 +101,19 @@ public class CreateSpace : MonoBehaviour
         lineRenderer.SetPosition(pointIndex, args.placementObject.transform.position);
     }
 
-    private void ChangeDepthGesture()
+    private void DragGestureRecognizerStarted(Gesture<DragGesture> dragGesture)
     {
-        Debug.Log("TOUCH ME  " + Input.touchCount.ToString());
-        if (Input.touchCount <= 0) return;
+        dragGesture.onStart += (s) =>
+        {
+            Debug.Log("Drag started");
+            _initialTouch = s.position;
+        };
         
-        Debug.Log("I got a touch");
-        var touch = Input.GetTouch(0);
-        if (touch.phase == TouchPhase.Began)
+        dragGesture.onUpdated += (s) =>
         {
-            Debug.Log("INITIAL TOUCH");
-            _initialTouch = touch;
-        }
-        if (touch.phase == TouchPhase.Moved)
-        {
-            Debug.Log("In move");
             if (!_isScaling)
             {
-                _initialDistanceBetween = touch.position.y - _initialTouch.position.y; //greater than 0 is up and less than zero is down
+                _initialDistanceBetween = s.position.y - _initialTouch.y; //greater than 0 is up and less than zero is down
                 if (_initialDistanceBetween > 0)
                 {
                     _positionChangeDirectionUp = true;
@@ -131,7 +126,7 @@ public class CreateSpace : MonoBehaviour
             }
             else
             {
-                var currentDistanceBetween = touch.position.y - _initialTouch.position.y;
+                var currentDistanceBetween = s.position.y - _initialTouch.y;
                 var scaleFactor = currentDistanceBetween / _initialDistanceBetween;
                 if (_positionChangeDirectionUp)
                 {
@@ -142,13 +137,15 @@ public class CreateSpace : MonoBehaviour
                     _depthPointGameObject.transform.position -= _depthPointGameObject.transform.forward * Time.deltaTime * scaleFactor;
                 }
             }
-        }
-        else
+        };
+        
+        dragGesture.onFinished += (s) =>
         {
             _isScaling = false;
-        }
+        };
+        
     }
-    
+
     private void ResizePlane()
     {
         Vector3 startPoint = _placedPoints[0].transform.position;
@@ -257,24 +254,6 @@ public class CreateSpace : MonoBehaviour
         }
     }
     
-    private void DragGestureRecognizerStarted(Gesture<DragGesture> dragGesture)
-    {
-        dragGesture.onStart += (s) =>
-        {
-            Debug.Log("Drag started");
-        };
-        
-        dragGesture.onUpdated += (s) =>
-        {
-            Debug.Log("Drag Updated");
-        };
-        
-        dragGesture.onFinished += (s) =>
-        {
-            Debug.Log("Drag finished");
-        };
-        
-    }
 
     #endregion
 
