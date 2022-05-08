@@ -209,8 +209,7 @@ public class CreateSpace : MonoBehaviour
         Destroy(temporaryPlane.gameObject);
         
         // Move plane
-        
-        PhotonUtil.PlaneAlignment.MovePlaneToCenter(_planeObjectPhoton.transform, transform);
+        PhotonUtil.PlaneAlignment.MovePlaneToCenter(_planeObjectPhoton.transform, _planeObjectPhoton.transform);
 
         // Flip such that players are in front of each other
         if(!PhotonNetwork.IsMasterClient) PhotonUtil.PlaneAlignment.FlipPosition(_planeObjectPhoton.transform, transform, 180);
