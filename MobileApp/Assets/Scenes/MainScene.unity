@@ -1469,6 +1469,8 @@ MonoBehaviour:
   gestureInteractable: {fileID: 1229287197}
   raycastManager: {fileID: 950194035}
   ARCamera: {fileID: 1229287196}
+  placementInteractable: {fileID: 258137686}
+  networkCube: {fileID: 7850712801630131926, guid: f23cb53dff6450447a913b0c505a0cfd, type: 3}
   exitSession: {fileID: 113453301}
   laserPointer: {fileID: 891570054}
   lobbyLabel: {fileID: 1652601719}
