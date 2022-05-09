@@ -24,7 +24,7 @@ public class SessionInProgress : MonoBehaviour
     [SerializeField] public Button exitSession;
     [SerializeField] public Button laserPointer;
     [SerializeField] public Button createObject;
-    [SerializeField] public TextMeshPro lobbyLabel;
+    [SerializeField] public TextMeshProUGUI lobbyLabel;
     
     #endregion
 
@@ -118,11 +118,9 @@ public class SessionInProgress : MonoBehaviour
     {
         if (!_laserPointerActive) return;
             
-        Debug.Log("LASER: currently touching");
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
         if (raycastManager.Raycast(gesturePosition, hits, TrackableType.PlaneWithinPolygon))
         {
-            Debug.Log("LASER: hit an object: " + hits[0]);
             _lineRenderer.SetPosition(0, ARCamera.transform.position);
             _lineRenderer.SetPosition(1, hits[0].pose.position);
         }

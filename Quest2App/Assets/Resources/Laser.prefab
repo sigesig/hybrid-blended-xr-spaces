@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8682797543215133767}
   - component: {fileID: 8682797543215133764}
   - component: {fileID: 8682797543215133765}
-  - component: {fileID: -1738829754238204551}
+  - component: {fileID: 1040291375939589003}
   m_Layer: 0
   m_Name: Laser
   m_TagString: Untagged
@@ -75,10 +75,10 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.4
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -149,11 +149,12 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 1040291375939589003}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-1738829754238204551
+--- !u!114 &1040291375939589003
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,6 +163,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8682797543215133755}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dc794c807ba91843bb1456cf94c162e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0055385b97ee445499f3a46634dec557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

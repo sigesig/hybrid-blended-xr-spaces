@@ -62,7 +62,7 @@ namespace Chiligames.MetaAvatars
             //Room max is set to 10, as there are 10 spawning point locations. Max Pun2 FREE amount of users in a room can be set to 20.
             roomOptions.MaxPlayers = 10;
             //The name of the room can be changed here, or randomized.
-            PhotonNetwork.JoinOrCreateRoom("MetaAvatars2", roomOptions, TypedLobby.Default);
+            PhotonNetwork.JoinRandomOrCreateRoom();
         }
 
         public override void OnJoinedRoom()
