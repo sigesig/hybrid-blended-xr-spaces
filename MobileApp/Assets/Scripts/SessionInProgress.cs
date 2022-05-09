@@ -154,9 +154,11 @@ public class SessionInProgress : MonoBehaviour
 
     private void SpawnObject(Vector2 gesturePosition)
     {
+        Debug.Log("TEST!#");
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
         if (raycastManager.Raycast(gesturePosition, hits, TrackableType.PlaneWithinPolygon))
         {
+            Debug.Log("Test23");
             var cube = PhotonNetwork.Instantiate("NetworkCube", hits[0].pose.position, hits[0].pose.rotation);
         }
     }
