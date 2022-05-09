@@ -35,6 +35,7 @@ public class CreateSpace : MonoBehaviour
     [SerializeField] public GameObject corner;
     [SerializeField] public GameObject planePrefab;
     [SerializeField] public ARGestureInteractor gestureInteractable;
+    [SerializeField] public ARSessionOrigin ARSessionOrigin;
     #endregion
     
     #region Private variables
@@ -62,6 +63,7 @@ public class CreateSpace : MonoBehaviour
     
     void Start()
     {
+        ARSessionOrigin.gameObject.transform.position = new Vector3(10000, 0, 0);
         gestureInteractable.dragGestureRecognizer.onGestureStarted += DragGestureRecognizerStarted;
         //Space creation setup
         placementInteractable.gameObject.SetActive(true);

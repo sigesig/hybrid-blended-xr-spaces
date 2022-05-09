@@ -1469,7 +1469,6 @@ MonoBehaviour:
   gestureInteractable: {fileID: 1229287197}
   raycastManager: {fileID: 950194035}
   ARCamera: {fileID: 1229287196}
-  placementInteractable: {fileID: 0}
   exitSession: {fileID: 113453301}
   laserPointer: {fileID: 891570054}
   lobbyLabel: {fileID: 1652601719}
@@ -3720,6 +3719,7 @@ MonoBehaviour:
   corner: {fileID: 2840592210150306051, guid: d7c62ca28ac791744993d5f8b16cc1bc, type: 3}
   planePrefab: {fileID: 6505507480755274737, guid: 6772f35227d2f934480f730e843836d4, type: 3}
   gestureInteractable: {fileID: 1229287197}
+  ARSessionOrigin: {fileID: 950194031}
 --- !u!1 &1514717370
 GameObject:
   m_ObjectHideFlags: 0
