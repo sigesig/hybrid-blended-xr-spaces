@@ -108,21 +108,21 @@ public class CreateSpace : MonoBehaviour
         {
             return;
         }
-        dragGesture.onStart += (s) =>
+        dragGesture.onStart += (gesture) =>
         {
             Debug.Log("Drag started");
         };
         
-        dragGesture.onUpdated += (s) =>
+        dragGesture.onUpdated += (gesture) =>
         {
             if (!_isScaling)
             {
-                _initialDistanceBetween = s.position.y - s.startPosition.y; //greater than 0 is up and less than zero is down
+                _initialDistanceBetween = gesture.position.y - gesture.startPosition.y; //greater than 0 is up and less than zero is down
                 _isScaling = !Mathf.Approximately(_initialDistanceBetween, 0);
             }
             else
             {
-                var currentDistanceBetween = s.position.y - s.startPosition.y;
+                var currentDistanceBetween = gesture.position.y - gesture.startPosition.y;
                 if (currentDistanceBetween > 0)
                 {
                     _positionChangeDirectionUp = true;
@@ -143,7 +143,7 @@ public class CreateSpace : MonoBehaviour
             }
         };
         
-        dragGesture.onFinished += (s) =>
+        dragGesture.onFinished += (gesture) =>
         {
             _isScaling = false;
         };
@@ -276,12 +276,18 @@ public class CreateSpace : MonoBehaviour
         spaceCanvas.gameObject.SetActive(false);
         currentSession.gameObject.SetActive(true);
         placementInteractable.gameObject.SetActive(false);
+        lineRenderer.enabled = true;
         _depthPhaseRunning = false;
         if (_plane != null)
         {
             Destroy(_plane);
         }
-        
+
+        if (_depthPointGameObject != null)
+        {
+            Destroy(_depthPointGameObject);
+        }
+
     }
     
     /*

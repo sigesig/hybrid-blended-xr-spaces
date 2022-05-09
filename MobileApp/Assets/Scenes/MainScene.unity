@@ -844,7 +844,7 @@ GameObject:
   - component: {fileID: 258137687}
   - component: {fileID: 258137686}
   m_Layer: 0
-  m_Name: AR Placement Interactable Space Creation
+  m_Name: AR Placement Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1469,6 +1469,7 @@ MonoBehaviour:
   gestureInteractable: {fileID: 1229287197}
   raycastManager: {fileID: 950194035}
   ARCamera: {fileID: 1229287196}
+  placementInteractable: {fileID: 0}
   exitSession: {fileID: 113453301}
   laserPointer: {fileID: 891570054}
   lobbyLabel: {fileID: 1652601719}

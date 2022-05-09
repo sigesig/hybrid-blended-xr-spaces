@@ -10,6 +10,14 @@ public class ARSelectionInteractableAuto : ARSelectionInteractable
 
    public override bool IsSelectableBy(IXRSelectInteractor interactor)
    {
-      return true;
+      return interactor is ARGestureInteractor;
+   }
+
+   protected override void OnEndManipulation(TapGesture gesture)
+   {
+      if (gesture.isCanceled)
+         return;
+      if (gestureInteractor == null)
+         return;
    }
 }

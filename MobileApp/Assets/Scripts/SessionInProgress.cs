@@ -21,7 +21,6 @@ public class SessionInProgress : MonoBehaviour
     [SerializeField] public ARGestureInteractor gestureInteractable;
     [SerializeField] public ARRaycastManager raycastManager;
     [SerializeField] public Camera ARCamera;
-    [SerializeField] public ARPlacementInteractable placementInteractable;
     // Buttons
     [SerializeField] public Button exitSession;
     [SerializeField] public Button laserPointer;
@@ -150,12 +149,24 @@ public class SessionInProgress : MonoBehaviour
         tapGesture.onUpdated += (gesture) =>
         {
             var position = gesture.startPosition;
-            
+            Debug.Log("PLZ JUST WORK");
             bool laserState = HandleLaserPointer(position);
+            Debug.Log(laserState.ToString());
             if (laserState) return;
+            Debug.Log("YES SIR");
             SpawnObject(position);
         };
 
+        tapGesture.onFinished += (gesture) =>
+        {
+            var position = gesture.startPosition;
+            Debug.Log("PLZ JUST WORK");
+            bool laserState = HandleLaserPointer(position);
+            Debug.Log(laserState.ToString());
+            if (laserState) return;
+            Debug.Log("YES SIR");
+            SpawnObject(position);
+        };
 
     }
 
