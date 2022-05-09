@@ -112,12 +112,25 @@ public class Networking : MonoBehaviourPunCallbacks
     {
         return _rooms;
     }
-
+    
+    /// <summary>
+    /// Tries to join a random room, if this fail then because of PUN callback(FailedtojoinRandomROom)it will create its own room
+    /// </summary>
     public static void StartSession()
     {
         PhotonNetwork.JoinRandomRoom();
     }
 
+
+    public static string GetJoinedRoomName()
+    {
+        if (PhotonNetwork.InRoom)
+        {
+            return PhotonNetwork.CurrentRoom.Name;
+        }
+
+        return "No Room";
+    }
     #endregion
     
     #region MonoBehaviourPunCallbacks Callbacks

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Voice.Unity;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
@@ -12,41 +13,45 @@ using UnityEngine.XR.Interaction.Toolkit.AR;
 public class SessionInProgress : MonoBehaviour
 {
     #region Serialized Fields
-    // Mute/Unmute Variables
-    [SerializeField] public Button muteUnmuteButton;
-    [SerializeField] public Sprite muted;
-    [SerializeField] public Sprite unMuted;
     // Canvases
     [SerializeField] public Canvas sessionCanvas;
     [SerializeField] public Canvas currentSession;
-    [SerializeField] public Recorder recorder;
-    [SerializeField] public Camera ARCamera;
-    
+    //Gestures
     [SerializeField] public ARGestureInteractor gestureInteractable;
     [SerializeField] public ARRaycastManager raycastManager;
-    // End Session Variables
+    [SerializeField] public Camera ARCamera;
+    // Buttons
     [SerializeField] public Button exitSession;
+    [SerializeField] public Button laserPointer;
+    [SerializeField] public Button createObject;
+    [SerializeField] public TextMeshPro lobbyLabel;
+    
     #endregion
 
     #region Private variables
-    
-        private bool _voiceChatIsMuted = true;
-        private GameObject _laserLine;
-        private LineRenderer _lineRenderer;
-        private bool _laserPointerActive = true;
+    private GameObject _laserLine;
+    private LineRenderer _lineRenderer;
+    private bool _laserPointerActive = false;
         
     #endregion
     
 
     void Start()
     {
+        lobbyLabel.text = "Lobby: " + Networking.GetJoinedRoomName();
+        
+        //Laser Handling
         _laserLine = Networking.GetLaserLine();
         _lineRenderer = _laserLine.GetComponent<LineRenderer>();
+        laserPointer.onClick.AddListener(LaserPointerControl);
+        _laserLine.SetActive(_laserPointerActive);
+        
+        //Gestures
         gestureInteractable.dragGestureRecognizer.onGestureStarted += DragGestureRecognizerStarted;
         gestureInteractable.tapGestureRecognizer.onGestureStarted += TapGestureRecognizerStarted;
-        muteUnmuteButton.onClick.AddListener(VoiceChatControl);
+        
+        //Exit session
         exitSession.onClick.AddListener(EndSession);
-        //recorder.IsRecording = !_voiceChatIsMuted;
     }
 
     private void Update()
@@ -70,46 +75,52 @@ public class SessionInProgress : MonoBehaviour
     /*
      * Used by the mute/unmute button. 
      */
-    private void VoiceChatControl()
+    private void LaserPointerControl()
     {
         if (_laserPointerActive)
         {
             LaserPointerSwitchButton();
-
-            muteUnmuteButton.GetComponent<Image>().sprite = unMuted;
-
+            laserPointer.GetComponent<Image>().color = Color.red;
             return;
         }
-
         LaserPointerSwitchButton();
-        muteUnmuteButton.GetComponent<Image>().sprite = muted;
+        laserPointer.GetComponent<Image>().color = Color.green;
+        
 
         //recorder.IsRecording = !_voiceChatIsMuted;
     }
-
+    
+    /// <summary>
+    /// Handles all the gestures involving Drag
+    /// </summary>
+    /// <param name="dragGesture">The drag gestures it self, provided by the onGestureStarted self</param>
     private void DragGestureRecognizerStarted(Gesture<DragGesture> dragGesture)
     {
 
-        dragGesture.onStart += (s) =>
+        dragGesture.onStart += (gesture) =>
         {
-            HandleLaserPointer(s.position);
+            HandleLaserPointer(gesture.position);
             
         };
 
-        dragGesture.onUpdated += (s) =>
+        dragGesture.onUpdated += (gesture) =>
         {
-            HandleLaserPointer(s.position);
+            HandleLaserPointer(gesture.position);
 
         };
     }
-
-    private void HandleLaserPointer(Vector2 s)
+    
+    /// <summary>
+    /// Controls the motion of the laserPointer
+    /// </summary>
+    /// <param name="gesturePosition"></param>
+    private void HandleLaserPointer(Vector2 gesturePosition)
     {
         if (!_laserPointerActive) return;
             
         Debug.Log("LASER: currently touching");
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
-        if (raycastManager.Raycast(s, hits, TrackableType.PlaneWithinPolygon))
+        if (raycastManager.Raycast(gesturePosition, hits, TrackableType.PlaneWithinPolygon))
         {
             Debug.Log("LASER: hit an object: " + hits[0]);
             _lineRenderer.SetPosition(0, ARCamera.transform.position);
@@ -119,9 +130,9 @@ public class SessionInProgress : MonoBehaviour
 
     private void TapGestureRecognizerStarted(Gesture<TapGesture> tapGesture)
     {
-        tapGesture.onStart += (s) =>
+        tapGesture.onStart += (gesture) =>
         {
-            HandleLaserPointer(s.startPosition);
+            HandleLaserPointer(gesture.startPosition);
         };
         
     }
@@ -130,7 +141,7 @@ public class SessionInProgress : MonoBehaviour
     private void LaserPointerSwitchButton()
     {
         _laserPointerActive = !_laserPointerActive;
-        _laserLine.gameObject.SetActive(_laserPointerActive);
+        _laserLine.SetActive(_laserPointerActive);
     }
 
 }
