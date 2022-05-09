@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.574817, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1471,8 +1471,8 @@ MonoBehaviour:
   ARCamera: {fileID: 1229287196}
   placementInteractable: {fileID: 258137686}
   networkCube: {fileID: 7850712801630131926, guid: f23cb53dff6450447a913b0c505a0cfd, type: 3}
-  ARSessionOrigin: {fileID: 0}
-  XRInteractionManager: {fileID: 0}
+  ARSessionOrigin: {fileID: 950194031}
+  XRInteractionManager: {fileID: 1233605351}
   exitSession: {fileID: 113453301}
   laserPointer: {fileID: 891570054}
   lobbyLabel: {fileID: 1652601719}
