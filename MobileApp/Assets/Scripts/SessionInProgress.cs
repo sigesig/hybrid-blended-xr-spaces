@@ -21,6 +21,7 @@ public class SessionInProgress : MonoBehaviour
     [SerializeField] public ARGestureInteractor gestureInteractable;
     [SerializeField] public ARRaycastManager raycastManager;
     [SerializeField] public Camera ARCamera;
+    [SerializeField] public ARPlacementInteractable placementInteractable;
     // Buttons
     [SerializeField] public Button exitSession;
     [SerializeField] public Button laserPointer;
@@ -74,7 +75,7 @@ public class SessionInProgress : MonoBehaviour
     }
     
     /*
-     * Used by the mute/unmute button. 
+     * Used by the laser pointer button
      */
     private void LaserPointerControl()
     {
@@ -136,7 +137,13 @@ public class SessionInProgress : MonoBehaviour
     {
         tapGesture.onStart += (gesture) =>
         {
-            
+            var position = gesture.startPosition;
+            Debug.Log("PLZ JUST WORK");
+            bool laserState = HandleLaserPointer(position);
+            Debug.Log(laserState.ToString());
+            if (laserState) return;
+            Debug.Log("YES SIR");
+            SpawnObject(position);
 
         };
 
