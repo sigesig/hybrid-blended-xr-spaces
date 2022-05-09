@@ -432,7 +432,7 @@ MonoBehaviour:
       m_Calls: []
   m_XROrigin: {fileID: 0}
   m_ARSessionOrigin: {fileID: 0}
-  m_MinScale: 0.75
+  m_MinScale: 0.04
   m_MaxScale: 1.75
   m_ElasticRatioLimit: 0
   m_Sensitivity: 0.75
