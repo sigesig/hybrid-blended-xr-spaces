@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.AR;
 
 public class SessionInProgress : MonoBehaviour
@@ -23,6 +24,8 @@ public class SessionInProgress : MonoBehaviour
     [SerializeField] public Camera ARCamera;
     [SerializeField] public ARPlacementInteractable placementInteractable;
     [SerializeField] public GameObject networkCube;
+    [SerializeField] public ARSessionOrigin ARSessionOrigin;
+    [SerializeField] public XRInteractionManager XRInteractionManager;
     // Buttons
     [SerializeField] public Button exitSession;
     [SerializeField] public Button laserPointer;
@@ -160,7 +163,12 @@ public class SessionInProgress : MonoBehaviour
         cube.GetComponent<ARRotationInteractable>().gameObject.SetActive(true);
         cube.GetComponent<ARScaleInteractable>().gameObject.SetActive(true);
         cube.GetComponent<ARTranslationInteractable>().gameObject.SetActive(true);
-
+        cube.GetComponent<ARRotationInteractable>().arSessionOrigin = ARSessionOrigin;
+        cube.GetComponent<ARScaleInteractable>().arSessionOrigin = ARSessionOrigin;
+        cube.GetComponent<ARTranslationInteractable>().arSessionOrigin = ARSessionOrigin;
+        cube.GetComponent<ARRotationInteractable>().interactionManager = XRInteractionManager;
+        cube.GetComponent<ARScaleInteractable>().interactionManager = XRInteractionManager;
+        cube.GetComponent<ARTranslationInteractable>().interactionManager = XRInteractionManager;
     }
 
     private void LaserPointerSwitchButton()
