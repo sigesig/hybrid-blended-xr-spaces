@@ -136,15 +136,20 @@ public class SessionInProgress : MonoBehaviour
     {
         tapGesture.onStart += (gesture) =>
         {
+            
+
+        };
+
+        tapGesture.onUpdated += (gesture) =>
+        {
             var position = gesture.startPosition;
             
             bool laserState = HandleLaserPointer(position);
             if (laserState) return;
             SpawnObject(position);
-
         };
-        
-        
+
+
     }
 
     private void SpawnObject(Vector2 gesturePosition)
