@@ -35,6 +35,7 @@ public class CreateSpace : MonoBehaviour
     [SerializeField] public GameObject corner;
     [SerializeField] public GameObject planePrefab;
     [SerializeField] public ARGestureInteractor gestureInteractable;
+    [SerializeField] public ARSessionOrigin ARSessionOrigin;
     #endregion
     
     #region Private variables
@@ -108,21 +109,21 @@ public class CreateSpace : MonoBehaviour
         {
             return;
         }
-        dragGesture.onStart += (s) =>
+        dragGesture.onStart += (gesture) =>
         {
             Debug.Log("Drag started");
         };
         
-        dragGesture.onUpdated += (s) =>
+        dragGesture.onUpdated += (gesture) =>
         {
             if (!_isScaling)
             {
-                _initialDistanceBetween = s.position.y - s.startPosition.y; //greater than 0 is up and less than zero is down
+                _initialDistanceBetween = gesture.position.y - gesture.startPosition.y; //greater than 0 is up and less than zero is down
                 _isScaling = !Mathf.Approximately(_initialDistanceBetween, 0);
             }
             else
             {
-                var currentDistanceBetween = s.position.y - s.startPosition.y;
+                var currentDistanceBetween = gesture.position.y - gesture.startPosition.y;
                 if (currentDistanceBetween > 0)
                 {
                     _positionChangeDirectionUp = true;
@@ -143,7 +144,7 @@ public class CreateSpace : MonoBehaviour
             }
         };
         
-        dragGesture.onFinished += (s) =>
+        dragGesture.onFinished += (gesture) =>
         {
             _isScaling = false;
         };
@@ -157,7 +158,6 @@ public class CreateSpace : MonoBehaviour
 
         float planeWidth = Vector3.Distance(startPoint, endPoint);
         float planeHeight = Vector3.Distance(_placedPoints[2].transform.position, _depthPointGameObject.transform.position);
-        Debug.Log("Height is: " + planeHeight);
         _plane.transform.localScale = new Vector3((planeWidth * 10), _plane.transform.localScale.y ,(planeHeight * 10) );
 
         _plane.transform.position =
@@ -277,12 +277,18 @@ public class CreateSpace : MonoBehaviour
         spaceCanvas.gameObject.SetActive(false);
         currentSession.gameObject.SetActive(true);
         placementInteractable.gameObject.SetActive(false);
+        lineRenderer.enabled = true;
         _depthPhaseRunning = false;
         if (_plane != null)
         {
             Destroy(_plane);
         }
-        
+
+        if (_depthPointGameObject != null)
+        {
+            Destroy(_depthPointGameObject);
+        }
+
     }
     
     /*

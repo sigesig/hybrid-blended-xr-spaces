@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using Photon.Voice.Unity;
 using TMPro;
 using UnityEngine;
@@ -20,10 +21,11 @@ public class SessionInProgress : MonoBehaviour
     [SerializeField] public ARGestureInteractor gestureInteractable;
     [SerializeField] public ARRaycastManager raycastManager;
     [SerializeField] public Camera ARCamera;
+    [SerializeField] public ARPlacementInteractable placementInteractable;
+    [SerializeField] public GameObject networkCube;
     // Buttons
     [SerializeField] public Button exitSession;
     [SerializeField] public Button laserPointer;
-    [SerializeField] public Button createObject;
     [SerializeField] public TextMeshProUGUI lobbyLabel;
     
     #endregion
@@ -32,6 +34,7 @@ public class SessionInProgress : MonoBehaviour
     private GameObject _laserLine;
     private LineRenderer _lineRenderer;
     private bool _laserPointerActive = false;
+    private GameObject _originalPlacementPrefab;
         
     #endregion
     
@@ -45,11 +48,16 @@ public class SessionInProgress : MonoBehaviour
         _lineRenderer = _laserLine.GetComponent<LineRenderer>();
         laserPointer.onClick.AddListener(LaserPointerControl);
         _laserLine.SetActive(_laserPointerActive);
+        laserPointer.GetComponent<Image>().color = Color.red;
         
         //Gestures
         gestureInteractable.dragGestureRecognizer.onGestureStarted += DragGestureRecognizerStarted;
         gestureInteractable.tapGestureRecognizer.onGestureStarted += TapGestureRecognizerStarted;
         
+        placementInteractable.gameObject.SetActive(true);
+        _originalPlacementPrefab = placementInteractable.placementPrefab;
+        placementInteractable.placementPrefab = networkCube;
+        placementInteractable.objectPlaced.AddListener(SpawnObject);
         //Exit session
         exitSession.onClick.AddListener(EndSession);
     }
@@ -70,19 +78,23 @@ public class SessionInProgress : MonoBehaviour
         Networking.LeaveRoom();
         currentSession.gameObject.SetActive(false);
         sessionCanvas.gameObject.SetActive(true);
+        placementInteractable.placementPrefab = _originalPlacementPrefab;
+        placementInteractable.gameObject.SetActive(false);
     }
     
     /*
-     * Used by the mute/unmute button. 
+     * Used by the laser pointer button
      */
     private void LaserPointerControl()
     {
         if (_laserPointerActive)
         {
+            placementInteractable.gameObject.SetActive(_laserPointerActive);
             LaserPointerSwitchButton();
             laserPointer.GetComponent<Image>().color = Color.red;
             return;
         }
+        placementInteractable.gameObject.SetActive(_laserPointerActive);
         LaserPointerSwitchButton();
         laserPointer.GetComponent<Image>().color = Color.green;
         
@@ -99,13 +111,15 @@ public class SessionInProgress : MonoBehaviour
 
         dragGesture.onStart += (gesture) =>
         {
-            HandleLaserPointer(gesture.position);
+            bool laserState = HandleLaserPointer(gesture.position);
+            if (laserState) return;
             
         };
 
         dragGesture.onUpdated += (gesture) =>
         {
-            HandleLaserPointer(gesture.position);
+            bool laserState = HandleLaserPointer(gesture.position);
+            if (laserState) return;
 
         };
     }
@@ -114,27 +128,40 @@ public class SessionInProgress : MonoBehaviour
     /// Controls the motion of the laserPointer
     /// </summary>
     /// <param name="gesturePosition"></param>
-    private void HandleLaserPointer(Vector2 gesturePosition)
+    private bool HandleLaserPointer(Vector2 gesturePosition)
     {
-        if (!_laserPointerActive) return;
-            
+        if (!_laserPointerActive) return false;
+        
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
         if (raycastManager.Raycast(gesturePosition, hits, TrackableType.PlaneWithinPolygon))
         {
+            Debug.Log("LASER: hit an object: " + hits[0]);
             _lineRenderer.SetPosition(0, ARCamera.transform.position);
             _lineRenderer.SetPosition(1, hits[0].pose.position);
         }
+
+        return true;
     }
 
     private void TapGestureRecognizerStarted(Gesture<TapGesture> tapGesture)
     {
         tapGesture.onStart += (gesture) =>
         {
-            HandleLaserPointer(gesture.startPosition);
+            Debug.Log("PLZ JUST WORK");
         };
         
     }
 
+    private void SpawnObject(ARObjectPlacementEventArgs args)
+    {
+        var placedCubeTransform = args.placementObject.transform;
+        var cube = PhotonNetwork.Instantiate("NetworkCube", placedCubeTransform.position, placedCubeTransform.rotation);
+        Destroy(args.placementObject);
+        cube.GetComponent<ARRotationInteractable>().gameObject.SetActive(true);
+        cube.GetComponent<ARScaleInteractable>().gameObject.SetActive(true);
+        cube.GetComponent<ARTranslationInteractable>().gameObject.SetActive(true);
+
+    }
 
     private void LaserPointerSwitchButton()
     {
