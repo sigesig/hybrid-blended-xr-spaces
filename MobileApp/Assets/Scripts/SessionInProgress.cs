@@ -114,15 +114,12 @@ public class SessionInProgress : MonoBehaviour
 
         dragGesture.onStart += (gesture) =>
         {
-            bool laserState = HandleLaserPointer(gesture.position);
-            if (laserState) return;
-            
+             HandleLaserPointer(gesture.position);
         };
 
         dragGesture.onUpdated += (gesture) =>
         {
-            bool laserState = HandleLaserPointer(gesture.position);
-            if (laserState) return;
+            HandleLaserPointer(gesture.position);
 
         };
     }
@@ -131,19 +128,16 @@ public class SessionInProgress : MonoBehaviour
     /// Controls the motion of the laserPointer
     /// </summary>
     /// <param name="gesturePosition"></param>
-    private bool HandleLaserPointer(Vector2 gesturePosition)
+    private void HandleLaserPointer(Vector2 gesturePosition)
     {
-        if (!_laserPointerActive) return false;
+        if (!_laserPointerActive) return;
         
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
         if (raycastManager.Raycast(gesturePosition, hits, TrackableType.PlaneWithinPolygon))
         {
-            Debug.Log("LASER: hit an object: " + hits[0]);
             _lineRenderer.SetPosition(0, ARCamera.transform.position);
             _lineRenderer.SetPosition(1, hits[0].pose.position);
         }
-
-        return true;
     }
 
     private void TapGestureRecognizerStarted(Gesture<TapGesture> tapGesture)
