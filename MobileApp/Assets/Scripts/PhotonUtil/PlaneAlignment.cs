@@ -12,7 +12,8 @@ namespace PhotonUtil
 
         public static void MovePlaneToCenter(Transform planeTransform, Transform playerTransform)
         {
-            var planePos = planeTransform.position;
+            var planePos = new Vector3(planeTransform.position.x - 10000, planeTransform.position.y,
+                planeTransform.position.z);
             planeTransform.position = new Vector3(0,0,0);
             playerTransform.parent.position = -planePos;
             /*
