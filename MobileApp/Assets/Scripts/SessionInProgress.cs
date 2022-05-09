@@ -21,6 +21,9 @@ public class SessionInProgress : MonoBehaviour
     [SerializeField] public ARGestureInteractor gestureInteractable;
     [SerializeField] public ARRaycastManager raycastManager;
     [SerializeField] public Camera ARCamera;
+    [SerializeField] public ARPlacementInteractable placementInteractable;
+
+    [SerializeField] public GameObject networkCube;
     // Buttons
     [SerializeField] public Button exitSession;
     [SerializeField] public Button laserPointer;
@@ -32,6 +35,7 @@ public class SessionInProgress : MonoBehaviour
     private GameObject _laserLine;
     private LineRenderer _lineRenderer;
     private bool _laserPointerActive = false;
+    private GameObject _originalPlacementPrefab;
         
     #endregion
     
@@ -51,6 +55,10 @@ public class SessionInProgress : MonoBehaviour
         gestureInteractable.dragGestureRecognizer.onGestureStarted += DragGestureRecognizerStarted;
         gestureInteractable.tapGestureRecognizer.onGestureStarted += TapGestureRecognizerStarted;
         
+        placementInteractable.gameObject.SetActive(true);
+        _originalPlacementPrefab = placementInteractable.placementPrefab;
+        placementInteractable.placementPrefab = networkCube;
+        placementInteractable.objectPlaced.AddListener(SpawnObject);
         //Exit session
         exitSession.onClick.AddListener(EndSession);
     }
@@ -71,6 +79,8 @@ public class SessionInProgress : MonoBehaviour
         Networking.LeaveRoom();
         currentSession.gameObject.SetActive(false);
         sessionCanvas.gameObject.SetActive(true);
+        placementInteractable.placementPrefab = _originalPlacementPrefab;
+        placementInteractable.gameObject.SetActive(false);
     }
     
     /*
@@ -80,10 +90,12 @@ public class SessionInProgress : MonoBehaviour
     {
         if (_laserPointerActive)
         {
+            placementInteractable.gameObject.SetActive(_laserPointerActive);
             LaserPointerSwitchButton();
             laserPointer.GetComponent<Image>().color = Color.red;
             return;
         }
+        placementInteractable.gameObject.SetActive(_laserPointerActive);
         LaserPointerSwitchButton();
         laserPointer.GetComponent<Image>().color = Color.green;
         
@@ -136,49 +148,18 @@ public class SessionInProgress : MonoBehaviour
     {
         tapGesture.onStart += (gesture) =>
         {
-            var position = gesture.startPosition;
             Debug.Log("PLZ JUST WORK");
-            bool laserState = HandleLaserPointer(position);
-            Debug.Log(laserState.ToString());
-            if (laserState) return;
-            Debug.Log("YES SIR");
-            SpawnObject(position);
-
         };
 
-        tapGesture.onUpdated += (gesture) =>
-        {
-            var position = gesture.startPosition;
-            Debug.Log("PLZ JUST WORK");
-            bool laserState = HandleLaserPointer(position);
-            Debug.Log(laserState.ToString());
-            if (laserState) return;
-            Debug.Log("YES SIR");
-            SpawnObject(position);
-        };
-
-        tapGesture.onFinished += (gesture) =>
-        {
-            var position = gesture.startPosition;
-            Debug.Log("PLZ JUST WORK");
-            bool laserState = HandleLaserPointer(position);
-            Debug.Log(laserState.ToString());
-            if (laserState) return;
-            Debug.Log("YES SIR");
-            SpawnObject(position);
-        };
+       
 
     }
 
-    private void SpawnObject(Vector2 gesturePosition)
+    private void SpawnObject(ARObjectPlacementEventArgs args)
     {
-        Debug.Log("TEST!#");
-        List<ARRaycastHit> hits = new List<ARRaycastHit>();
-        if (raycastManager.Raycast(gesturePosition, hits, TrackableType.PlaneWithinPolygon))
-        {
-            Debug.Log("Test23");
-            var cube = PhotonNetwork.Instantiate("NetworkCube", hits[0].pose.position, hits[0].pose.rotation);
-        }
+        var placedCubeTransform = args.placementObject.transform;
+        var cube = PhotonNetwork.Instantiate("NetworkCube", placedCubeTransform.position, placedCubeTransform.rotation);
+        Destroy(args.placementObject);
     }
 
     private void LaserPointerSwitchButton()
