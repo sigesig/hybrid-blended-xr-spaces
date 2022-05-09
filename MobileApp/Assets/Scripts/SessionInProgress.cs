@@ -24,7 +24,6 @@ public class SessionInProgress : MonoBehaviour
     // Buttons
     [SerializeField] public Button exitSession;
     [SerializeField] public Button laserPointer;
-    [SerializeField] public Button createObject;
     [SerializeField] public TextMeshProUGUI lobbyLabel;
     
     #endregion
@@ -46,6 +45,7 @@ public class SessionInProgress : MonoBehaviour
         _lineRenderer = _laserLine.GetComponent<LineRenderer>();
         laserPointer.onClick.AddListener(LaserPointerControl);
         _laserLine.SetActive(_laserPointerActive);
+        laserPointer.GetComponent<Image>().color = Color.red;
         
         //Gestures
         gestureInteractable.dragGestureRecognizer.onGestureStarted += DragGestureRecognizerStarted;
