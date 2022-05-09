@@ -160,6 +160,10 @@ public class SessionInProgress : MonoBehaviour
         var placedCubeTransform = args.placementObject.transform;
         var cube = PhotonNetwork.Instantiate("NetworkCube", placedCubeTransform.position, placedCubeTransform.rotation);
         Destroy(args.placementObject);
+        cube.GetComponent<ARRotationInteractable>().gameObject.SetActive(true);
+        cube.GetComponent<ARScaleInteractable>().gameObject.SetActive(true);
+        cube.GetComponent<ARTranslationInteractable>().gameObject.SetActive(true);
+
     }
 
     private void LaserPointerSwitchButton()
