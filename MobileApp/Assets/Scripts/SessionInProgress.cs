@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using Photon.Voice.Unity;
 using TMPro;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class SessionInProgress : MonoBehaviour
     [SerializeField] public Button exitSession;
     [SerializeField] public Button laserPointer;
     [SerializeField] public Button createObject;
-    [SerializeField] public TextMeshPro lobbyLabel;
+    [SerializeField] public TextMeshProUGUI lobbyLabel;
     
     #endregion
 
@@ -99,13 +100,15 @@ public class SessionInProgress : MonoBehaviour
 
         dragGesture.onStart += (gesture) =>
         {
-            HandleLaserPointer(gesture.position);
+            bool laserState = HandleLaserPointer(gesture.position);
+            if (laserState) return;
             
         };
 
         dragGesture.onUpdated += (gesture) =>
         {
-            HandleLaserPointer(gesture.position);
+            bool laserState = HandleLaserPointer(gesture.position);
+            if (laserState) return;
 
         };
     }
@@ -114,11 +117,10 @@ public class SessionInProgress : MonoBehaviour
     /// Controls the motion of the laserPointer
     /// </summary>
     /// <param name="gesturePosition"></param>
-    private void HandleLaserPointer(Vector2 gesturePosition)
+    private bool HandleLaserPointer(Vector2 gesturePosition)
     {
-        if (!_laserPointerActive) return;
-            
-        Debug.Log("LASER: currently touching");
+        if (!_laserPointerActive) return false;
+        
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
         if (raycastManager.Raycast(gesturePosition, hits, TrackableType.PlaneWithinPolygon))
         {
@@ -126,17 +128,33 @@ public class SessionInProgress : MonoBehaviour
             _lineRenderer.SetPosition(0, ARCamera.transform.position);
             _lineRenderer.SetPosition(1, hits[0].pose.position);
         }
+
+        return true;
     }
 
     private void TapGestureRecognizerStarted(Gesture<TapGesture> tapGesture)
     {
         tapGesture.onStart += (gesture) =>
         {
-            HandleLaserPointer(gesture.startPosition);
+            var position = gesture.startPosition;
+            
+            bool laserState = HandleLaserPointer(position);
+            if (laserState) return;
+            SpawnObject(position);
+
         };
+        
         
     }
 
+    private void SpawnObject(Vector2 gesturePosition)
+    {
+        List<ARRaycastHit> hits = new List<ARRaycastHit>();
+        if (raycastManager.Raycast(gesturePosition, hits, TrackableType.PlaneWithinPolygon))
+        {
+            var cube = PhotonNetwork.Instantiate("NetworkCube", hits[0].pose.position, hits[0].pose.rotation);
+        }
+    }
 
     private void LaserPointerSwitchButton()
     {
