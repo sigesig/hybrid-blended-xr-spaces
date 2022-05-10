@@ -1471,8 +1471,8 @@ MonoBehaviour:
   ARCamera: {fileID: 1229287196}
   placementInteractable: {fileID: 258137686}
   networkCube: {fileID: 7850712801630131926, guid: f23cb53dff6450447a913b0c505a0cfd, type: 3}
-  ARSessionOrigin: {fileID: 0}
-  XRInteractionManager: {fileID: 0}
+  ARSessionOrigin: {fileID: 950194031}
+  XRInteractionManager: {fileID: 1233605351}
   exitSession: {fileID: 113453301}
   laserPointer: {fileID: 891570054}
   lobbyLabel: {fileID: 1652601719}
