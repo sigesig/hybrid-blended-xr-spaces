@@ -13,16 +13,16 @@ public class Networking : MonoBehaviourPunCallbacks
     private static bool _isConnected = false;
     private static List<RoomInfo> _rooms = new List<RoomInfo>();
     
-    private static GameObject line;
+    private static GameObject _line;
     private LineRenderer lineRenderer;
-    private bool isInRoom = false;
-    private GameObject avatar;
+    private bool _isInRoom = false;
+    private GameObject _avatar;
     
     void Update()
     {
-        if(isInRoom) {
-            avatar.transform.position = ARCamera.transform.position;
-            avatar.transform.rotation = ARCamera.transform.rotation;
+        if(_isInRoom) {
+            _avatar.transform.position = ARCamera.transform.position;
+            _avatar.transform.rotation = ARCamera.transform.rotation;
         }
     }
     
@@ -82,17 +82,17 @@ public class Networking : MonoBehaviourPunCallbacks
 
     public static GameObject GetLaserLine()
     {
-        return line;
+        return _line;
     }
 
 
     public override void OnJoinedRoom()
     {
         Debug.Log("Master: " + PhotonNetwork.IsMasterClient + " | Players In Room: " + PhotonNetwork.CurrentRoom.PlayerCount + " | RoomName: " + PhotonNetwork.CurrentRoom.Name + " Region: " + PhotonNetwork.CloudRegion);
-        avatar = PhotonNetwork.Instantiate("CubeAvatar", ARCamera.transform.position, ARCamera.transform.rotation);
-        line = PhotonNetwork.Instantiate("Laser", new Vector3(0,0,0), Quaternion.identity);
-        line.SetActive(false);
-        isInRoom = true;
+        _avatar = PhotonNetwork.Instantiate("CubeAvatar", ARCamera.transform.position, ARCamera.transform.rotation);
+        _line = PhotonNetwork.Instantiate("Laser", new Vector3(0,0,0), Quaternion.identity);
+        //line.SetActive(false);
+        _isInRoom = true;
     }
     
     /// <summary>
