@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 261d383c60ecb684da904d28825d2a91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: {x: 0, y: 50, z: 0}
+  speed: {x: 50, y: 0, z: 0}
 --- !u!1 &7807949055905844466
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,7 +614,7 @@ MonoBehaviour:
   m_XROrigin: {fileID: 0}
   m_ARSessionOrigin: {fileID: 0}
   m_ObjectGestureTranslationMode: 2
-  m_MaxTranslationDistance: 10
+  m_MaxTranslationDistance: 500
   m_FallbackLayerMask:
     serializedVersion: 2
     m_Bits: 0
