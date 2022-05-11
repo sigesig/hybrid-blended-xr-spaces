@@ -22,10 +22,8 @@ public class SessionInProgress : MonoBehaviour
     [SerializeField] public ARGestureInteractor gestureInteractable;
     [SerializeField] public ARRaycastManager raycastManager;
     [SerializeField] public Camera ARCamera;
-    [SerializeField] public ARPlacementInteractable placementInteractable;
-    [SerializeField] public GameObject networkCube;
-    [SerializeField] public ARSessionOrigin ARSessionOrigin;
-    [SerializeField] public XRInteractionManager XRInteractionManager;
+
+    [SerializeField] public ARPlacementInteractablePhotonExtension placementInteractablePhoton;
     // Buttons
     [SerializeField] public Button exitSession;
     [SerializeField] public Button laserPointer;
@@ -57,10 +55,8 @@ public class SessionInProgress : MonoBehaviour
         gestureInteractable.dragGestureRecognizer.onGestureStarted += DragGestureRecognizerStarted;
         gestureInteractable.tapGestureRecognizer.onGestureStarted += TapGestureRecognizerStarted;
         
-        placementInteractable.gameObject.SetActive(true);
-        _originalPlacementPrefab = placementInteractable.placementPrefab;
-        placementInteractable.placementPrefab = networkCube;
-        placementInteractable.objectPlaced.AddListener(SpawnObject);
+        placementInteractablePhoton.gameObject.SetActive(true);
+        
         //Exit session
         exitSession.onClick.AddListener(EndSession);
     }
@@ -81,8 +77,7 @@ public class SessionInProgress : MonoBehaviour
         Networking.LeaveRoom();
         currentSession.gameObject.SetActive(false);
         sessionCanvas.gameObject.SetActive(true);
-        placementInteractable.placementPrefab = _originalPlacementPrefab;
-        placementInteractable.gameObject.SetActive(false);
+        placementInteractablePhoton.gameObject.SetActive(false);
     }
     
     /*
@@ -92,12 +87,12 @@ public class SessionInProgress : MonoBehaviour
     {
         if (_laserPointerActive)
         {
-            placementInteractable.gameObject.SetActive(_laserPointerActive);
+            placementInteractablePhoton.gameObject.SetActive(_laserPointerActive);
             LaserPointerSwitchButton();
             laserPointer.GetComponent<Image>().color = Color.red;
             return;
         }
-        placementInteractable.gameObject.SetActive(_laserPointerActive);
+        placementInteractablePhoton.gameObject.SetActive(_laserPointerActive);
         LaserPointerSwitchButton();
         laserPointer.GetComponent<Image>().color = Color.green;
         
@@ -147,22 +142,6 @@ public class SessionInProgress : MonoBehaviour
             Debug.Log("PLZ JUST WORK");
         };
         
-    }
-
-    private void SpawnObject(ARObjectPlacementEventArgs args)
-    {
-        var placedCubeTransform = args.placementObject.transform;
-        var cube = PhotonNetwork.Instantiate("NetworkCube", placedCubeTransform.position, placedCubeTransform.rotation);
-        Destroy(args.placementObject);
-        cube.GetComponent<ARRotationInteractable>().gameObject.SetActive(true);
-        cube.GetComponent<ARScaleInteractable>().gameObject.SetActive(true);
-        cube.GetComponent<ARTranslationInteractable>().gameObject.SetActive(true);
-        cube.GetComponent<ARRotationInteractable>().arSessionOrigin = ARSessionOrigin;
-        cube.GetComponent<ARScaleInteractable>().arSessionOrigin = ARSessionOrigin;
-        cube.GetComponent<ARTranslationInteractable>().arSessionOrigin = ARSessionOrigin;
-        cube.GetComponent<ARRotationInteractable>().interactionManager = XRInteractionManager;
-        cube.GetComponent<ARScaleInteractable>().interactionManager = XRInteractionManager;
-        cube.GetComponent<ARTranslationInteractable>().interactionManager = XRInteractionManager;
     }
 
     private void LaserPointerSwitchButton()
