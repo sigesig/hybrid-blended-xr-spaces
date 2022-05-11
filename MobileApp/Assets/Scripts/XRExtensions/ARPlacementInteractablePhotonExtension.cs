@@ -8,13 +8,14 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.Interaction.Toolkit.AR;
 
+/// <summary>
+/// Own implementation of ARPlacementInteractable such that it can spawn photon objects instead of normal objects
+/// </summary>
 public class ARPlacementInteractablePhotonExtension : ARBaseGestureInteractable
 {
     [SerializeField] private GameObject placementPrefab;
-
-    [SerializeField] private ARObjectPlacementEvent onObjectPlaced;
-
-    private GameObject placementObject;
+    
+    private List<GameObject> placedObjects = new List<GameObject>();
 
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
@@ -50,24 +51,21 @@ public class ARPlacementInteractablePhotonExtension : ARBaseGestureInteractable
                 return;
             }
 
-            if (placementObject == null)
+            var placedObject = PhotonNetwork.Instantiate("NetworkCube", hit.pose.position, hit.pose.rotation);
+            placedObjects.Add(placedObject);
+            
+            var anchorObject = new GameObject("PlacementAnchor");
+            anchorObject.transform.position = hit.pose.position;
+            anchorObject.transform.rotation = hit.pose.rotation;
+
+            if (trackablesObject == null)
             {
-                placementObject = PhotonNetwork.Instantiate("NetworkCube", hit.pose.position, hit.pose.rotation);
+                trackablesObject = GameObject.Find("Trackables");
+            }
 
-                var anchorObject = new GameObject("PlacementAnchor");
-                anchorObject.transform.position = hit.pose.position;
-                anchorObject.transform.rotation = hit.pose.rotation;
-
-                if (trackablesObject == null)
-                {
-                    trackablesObject = GameObject.Find("Trackables");
-                }
-
-                if (trackablesObject != null)
-                {
-                    anchorObject.transform.parent = trackablesObject.transform;
-                }
-
+            if (trackablesObject != null)
+            {
+                anchorObject.transform.parent = trackablesObject.transform;
             }
             
         }

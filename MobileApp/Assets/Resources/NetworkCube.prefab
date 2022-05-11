@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4455810202274481868}
   - component: {fileID: 5605622680276546406}
+  - component: {fileID: 2103410102018964596}
   m_Layer: 0
   m_Name: Selector
   m_TagString: Untagged
@@ -82,6 +83,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2103410102018964596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 460991056270711556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 261d383c60ecb684da904d28825d2a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: {x: 0, y: 50, z: 0}
 --- !u!1 &7807949055905844466
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,9 +447,9 @@ MonoBehaviour:
   m_XROrigin: {fileID: 0}
   m_ARSessionOrigin: {fileID: 0}
   m_MinScale: 0.04
-  m_MaxScale: 1.75
+  m_MaxScale: 0.1
   m_ElasticRatioLimit: 0
-  m_Sensitivity: 0.75
+  m_Sensitivity: 0.35
   m_Elasticity: 0.15
 --- !u!114 &2482056492176763184
 MonoBehaviour:
