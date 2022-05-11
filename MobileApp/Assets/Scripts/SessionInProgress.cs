@@ -22,7 +22,6 @@ public class SessionInProgress : MonoBehaviour
     [SerializeField] public ARGestureInteractor gestureInteractable;
     [SerializeField] public ARRaycastManager raycastManager;
     [SerializeField] public Camera ARCamera;
-
     [SerializeField] public ARPlacementInteractablePhotonExtension placementInteractablePhoton;
     // Buttons
     [SerializeField] public Button exitSession;
@@ -69,9 +68,9 @@ public class SessionInProgress : MonoBehaviour
         }
     }
 
-    /*
-     * End the current session. Used by the exit session button
-     */
+    /// <summary>
+    /// End the current session. Used by the exit session button
+    /// </summary>
     private void EndSession()
     {
         Networking.LeaveRoom();
@@ -80,9 +79,9 @@ public class SessionInProgress : MonoBehaviour
         placementInteractablePhoton.gameObject.SetActive(false);
     }
     
-    /*
-     * Used by the laser pointer button
-     */
+    /// <summary>
+    /// Used by the laser pointer button
+    /// </summary>
     private void LaserPointerControl()
     {
         if (_laserPointerActive)
@@ -134,7 +133,11 @@ public class SessionInProgress : MonoBehaviour
             _lineRenderer.SetPosition(1, hits[0].pose.position);
         }
     }
-
+    
+    /// <summary>
+    /// Handles all the gestures involving Drag
+    /// </summary>
+    /// <param name="tapGesture">The tap gestures it self, provided by the onGestureStarted self</param>
     private void TapGestureRecognizerStarted(Gesture<TapGesture> tapGesture)
     {
         tapGesture.onStart += (gesture) =>
@@ -143,7 +146,10 @@ public class SessionInProgress : MonoBehaviour
         };
         
     }
-
+    
+    /// <summary>
+    /// Toggles the Laser pointer on/off
+    /// </summary>
     private void LaserPointerSwitchButton()
     {
         _laserPointerActive = !_laserPointerActive;

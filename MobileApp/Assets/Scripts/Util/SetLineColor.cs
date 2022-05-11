@@ -4,6 +4,9 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles the colors of user, so their lines looks different
+/// </summary>
 public class SetLineColor : MonoBehaviour
 {
     private LineRenderer lineRenderer;
@@ -12,6 +15,9 @@ public class SetLineColor : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         SetColourScheme();
     }
+    /// <summary>
+    /// Sets the color of the line
+    /// </summary>
     private void SetColourScheme()
     {
         if (gameObject.GetPhotonView().AmOwner)

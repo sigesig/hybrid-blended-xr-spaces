@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Used to add an outline to GameObjects
+/// </summary>
 [RequireComponent(typeof(LineRenderer))]
 public class LineRendererOutline : MonoBehaviour
 {

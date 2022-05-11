@@ -4,6 +4,9 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles the colors of user, so they look different
+/// </summary>
 public class SetAvatarColor : MonoBehaviour
 {
     
@@ -13,6 +16,10 @@ public class SetAvatarColor : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
         SetColourScheme();
     }
+    
+    /// <summary>
+    /// Sets the color of a user
+    /// </summary>
     private void SetColourScheme()
     {
         if (gameObject.GetPhotonView().AmOwner)

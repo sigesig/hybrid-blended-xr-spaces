@@ -5,6 +5,9 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
+/// <summary>
+/// Handles most of the Photon networking
+/// </summary>
 public class Networking : MonoBehaviourPunCallbacks
 {
     [SerializeField] public Camera ARCamera;
@@ -56,7 +59,11 @@ public class Networking : MonoBehaviourPunCallbacks
     {
         return PhotonNetwork.JoinLobby();
     }
-
+    
+    /// <summary>
+    /// Leaves the room if currently connected to one
+    /// </summary>
+    /// <returns>True or false depending on if it was succesfull</returns>
     public static bool LeaveRoom()
     {
         return PhotonNetwork.LeaveRoom();
@@ -65,6 +72,7 @@ public class Networking : MonoBehaviourPunCallbacks
     /// <summary>
     /// Connect to Pun
     /// </summary>
+    /// <param name="userName">The name you are joining with</param>
     public static void Connect(string userName)
     {
         try
@@ -79,13 +87,17 @@ public class Networking : MonoBehaviourPunCallbacks
             Debug.Log(e);
         }
     }
-
+    
+    /// <summary>
+    /// Get the instantiated laser pointer line
+    /// </summary>
+    /// <returns>the laser line gameobject</returns>
     public static GameObject GetLaserLine()
     {
         return _line;
     }
 
-
+    
     public override void OnJoinedRoom()
     {
         Debug.Log("Master: " + PhotonNetwork.IsMasterClient + " | Players In Room: " + PhotonNetwork.CurrentRoom.PlayerCount + " | RoomName: " + PhotonNetwork.CurrentRoom.Name + " Region: " + PhotonNetwork.CloudRegion);
@@ -98,7 +110,7 @@ public class Networking : MonoBehaviourPunCallbacks
     /// <summary>
     /// Tells if the device is connected to the master server 
     /// </summary>
-    /// <returns></returns>
+    /// <returns>True if connected else false</returns>
     public static bool IsConnected()
     {
         return _isConnected;
@@ -121,7 +133,10 @@ public class Networking : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom();
     }
 
-
+    /// <summary>
+    /// Gets the name of the connected room if connected to a room
+    /// </summary>
+    /// <returns>returns the room name else returns no room</returns>
     public static string GetJoinedRoomName()
     {
         if (PhotonNetwork.InRoom)

@@ -6,6 +6,9 @@ using UnityEngine.XR.ARFoundation;
 
 namespace Util
 {
+    /// <summary>
+    /// Helper functions
+    /// </summary>
     public static class Helpers
     {
         /// <summary>

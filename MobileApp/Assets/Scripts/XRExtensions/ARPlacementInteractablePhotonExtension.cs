@@ -10,8 +10,6 @@ public class ARPlacementInteractablePhotonExtension : ARBaseGestureInteractable
 {
     [SerializeField] private GameObject placementPrefab;
 
-    [SerializeField] private ARObjectPlacementEvent onObjectPlaced;
-
     private GameObject placementObject;
 
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
@@ -65,8 +63,7 @@ public class ARPlacementInteractablePhotonExtension : ARBaseGestureInteractable
                 {
                     anchorObject.transform.parent = trackablesObject.transform;
                 }
-                
-                onObjectPlaced?.Invoke(this, placementObject);
+
             }
             
         }

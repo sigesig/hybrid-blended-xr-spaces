@@ -54,9 +54,9 @@ public class StartSession : MonoBehaviour
     
     
     #region Private Methods
-    /*
-     * Used by start session button to switch between Space creation canvas and the begin session canvas
-     */
+    /// <summary>
+    /// Used by start session button to switch between Space creation canvas and the begin session canvas
+    /// </summary>
     private void SwitchToSpaceCreation()
     {
         Networking.StartSession();

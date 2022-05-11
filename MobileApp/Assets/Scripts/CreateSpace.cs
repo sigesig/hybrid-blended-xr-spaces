@@ -35,7 +35,6 @@ public class CreateSpace : MonoBehaviour
     [SerializeField] public GameObject corner;
     [SerializeField] public GameObject planePrefab;
     [SerializeField] public ARGestureInteractor gestureInteractable;
-    [SerializeField] public ARSessionOrigin ARSessionOrigin;
     #endregion
     
     #region Private variables
@@ -47,10 +46,8 @@ public class CreateSpace : MonoBehaviour
 
     //Used for handling the resize 
     private ARRaycastManager _arRaycastManager;
-    private Vector3 _initialTouch;
     private GameObject _planeObjectPhoton;
     private bool _isScaling = false;
-    private Vector3 _currentUpVector3;
     private float _initialDistanceBetween;
     
     #endregion
@@ -93,7 +90,11 @@ public class CreateSpace : MonoBehaviour
     }
 
     #region Plane creation functions
-
+    
+    /// <summary>
+    /// Used to keep track of the two first points placed, and draws a line between them
+    /// </summary>
+    /// <param name="args">Get this from the Placement interactable when a point is placed</param>
     private void DrawLine(ARObjectPlacementEventArgs args)
     {
         _placedPoints.Add(args.placementObject);
@@ -102,6 +103,10 @@ public class CreateSpace : MonoBehaviour
         lineRenderer.SetPosition(pointIndex, args.placementObject.transform.position);
     }
     
+    /// <summary>
+    /// Used as the function for the drag gesture. If drawing op on the screen this will extend the current plane if down will shrink it
+    /// </summary>
+    /// <param name="dragGesture"></param>
     private void DragGestureRecognizerStarted(Gesture<DragGesture> dragGesture)
     {
         const float acceleration = 0.1f;
@@ -150,7 +155,10 @@ public class CreateSpace : MonoBehaviour
         };
         
     }
-
+    
+    /// <summary>
+    /// Used to resize the plane, in regards to the points
+    /// </summary>
     private void ResizePlane()
     {
         Vector3 startPoint = _placedPoints[0].transform.position;
@@ -166,7 +174,9 @@ public class CreateSpace : MonoBehaviour
             + ((planeWidth * -_plane.transform.right) / 2);
     }
     
-    /** Sets the rotation of all objects in the forward direction created by the two placed points*/
+    /// <summary>
+    /// Sets the rotation of all objects in the forward direction created by the two placed points
+    /// </summary>
     private void SetRotation()
     {
         if (_placedPoints.Count >= 2)
@@ -180,7 +190,11 @@ public class CreateSpace : MonoBehaviour
         }
     }
 
-
+    
+    /// <summary>
+    /// When there are two points this function should be called and it will instantiate the depth selection for the plane
+    /// </summary>
+    /// <returns>true if successful </returns>
     private bool StartDepthSelection()
     {   
         _placedPoints[0].transform.rotation = Quaternion.Euler(0,0,0);
@@ -199,7 +213,10 @@ public class CreateSpace : MonoBehaviour
         ResizePlane();
         return true;
     }
-
+    
+    /// <summary>
+    /// Creates the defined plane as a photon gameobject and alignes it correctly in the space
+    /// </summary>
     private void CreateNetworkConnectedPlane()
     {
         Transform temporaryPlane = EndDefinePhase();
@@ -216,6 +233,10 @@ public class CreateSpace : MonoBehaviour
         if(!PhotonNetwork.IsMasterClient) PhotonUtil.PlaneAlignment.FlipPosition(_planeObjectPhoton.transform, transform, 180);
     }
     
+    /// <summary>
+    /// Fetches the transform of the finished plane
+    /// </summary>
+    /// <returns>The defined planes transform</returns>
     private Transform EndDefinePhase()
     {
         Transform planeCopy = _plane.transform;
@@ -225,9 +246,10 @@ public class CreateSpace : MonoBehaviour
     }
     
 
-    /*
-     * Used to toggle interactable of creation button
-     */
+    /// <summary>
+    /// Used to toggle interactable of creation button
+    /// </summary>
+    /// <param name="numberOfPoints"></param>
     private void IsPlaneCreationPossible(int numberOfPoints)
     {
         if (numberOfPoints >= 2)
@@ -238,9 +260,10 @@ public class CreateSpace : MonoBehaviour
         createPlaneBtn.interactable = false;
     }
     
-    /*
-     * Used to toggle interactable of delete button
-     */
+    /// <summary>
+    /// Used to toggle interactable of delete button
+    /// </summary>
+    /// <param name="numberOfPoints">The current number of points</param>
     private void CanDeletePreviousPoint(int numberOfPoints)
     {
         if (numberOfPoints >= 1)
@@ -250,7 +273,10 @@ public class CreateSpace : MonoBehaviour
         }
         deleteLastPointBtn.interactable = false;
     }
-
+    
+    /// <summary>
+    /// Removes all the points spawned
+    /// </summary>
     private void RemoveAllPoints()
     {
         lineRenderer.positionCount = 0;
@@ -265,9 +291,9 @@ public class CreateSpace : MonoBehaviour
 
     #region Buttons control
 
-    /*
-    * Used by create plane button to create mesh from placed points
-    */
+    /// <summary>
+    /// Used by create plane button to instantiate the photon plane from the designed plane
+    /// </summary>
     private void CreatePlane()
     {
         Helpers.TogglePlaneDetection(arPlaneManager);
@@ -291,9 +317,9 @@ public class CreateSpace : MonoBehaviour
 
     }
     
-    /*
-    * Used by exit button for switching between Space creation canvas and the begin session canvas
-    */
+    /// <summary>
+    /// Used by exit button for switching between Space creation canvas and the begin session canvas
+    /// </summary>
     private void StopSpaceCreation()
     {
         Helpers.TogglePlaneDetection(arPlaneManager);
@@ -309,9 +335,9 @@ public class CreateSpace : MonoBehaviour
         RemoveAllPoints();
     }
     
-    /*
-    * Used by delete last point button to removed the last placed point
-    */
+    /// <summary>
+    /// Used by delete last point button to removed the last placed point
+    /// </summary>
     private void DeleteLastPlacedPoint()
     {
         if (_depthPhaseRunning)

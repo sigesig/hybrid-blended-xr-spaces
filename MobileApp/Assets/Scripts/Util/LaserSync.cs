@@ -4,6 +4,9 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 
+/// <summary>
+/// Handles the sync of the laser pointer line
+/// </summary>
 public class LaserSync : MonoBehaviourPun, IPunObservable
 {
     private LineRenderer _lineRenderer;
@@ -13,12 +16,12 @@ public class LaserSync : MonoBehaviourPun, IPunObservable
         _lineRenderer = GetComponent<LineRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
+    /// <summary>
+    /// Used to update the line
+    /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="info"></param>
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if(stream.IsWriting) {
             var array = new Vector3[2];
