@@ -34,7 +34,6 @@ public class SessionInProgress : MonoBehaviour
     private GameObject _laserLine;
     private LineRenderer _lineRenderer;
     private bool _laserPointerActive = false;
-    private GameObject _originalPlacementPrefab;
         
     #endregion
     

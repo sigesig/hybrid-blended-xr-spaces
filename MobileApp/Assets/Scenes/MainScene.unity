@@ -1959,6 +1959,9 @@ MonoBehaviour:
   m_XROrigin: {fileID: 0}
   m_ARSessionOrigin: {fileID: 950194031}
   placementPrefab: {fileID: 7850712801630131926, guid: f23cb53dff6450447a913b0c505a0cfd, type: 3}
+  onObjectPlaced:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &848697215
 GameObject:
   m_ObjectHideFlags: 0
@@ -2865,7 +2868,7 @@ GameObject:
   - component: {fileID: 1229287197}
   m_Layer: 0
   m_Name: AR Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3833,7 +3836,6 @@ MonoBehaviour:
   corner: {fileID: 2840592210150306051, guid: d7c62ca28ac791744993d5f8b16cc1bc, type: 3}
   planePrefab: {fileID: 6505507480755274737, guid: 6772f35227d2f934480f730e843836d4, type: 3}
   gestureInteractable: {fileID: 1229287197}
-  ARSessionOrigin: {fileID: 950194031}
 --- !u!1 &1514717370
 GameObject:
   m_ObjectHideFlags: 0

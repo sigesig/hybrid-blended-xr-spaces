@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.Interaction.Toolkit.AR;
@@ -9,6 +11,8 @@ using UnityEngine.XR.Interaction.Toolkit.AR;
 public class ARPlacementInteractablePhotonExtension : ARBaseGestureInteractable
 {
     [SerializeField] private GameObject placementPrefab;
+
+    [SerializeField] private ARObjectPlacementEvent onObjectPlaced;
 
     private GameObject placementObject;
 
