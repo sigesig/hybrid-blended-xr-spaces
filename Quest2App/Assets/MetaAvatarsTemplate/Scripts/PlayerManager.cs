@@ -56,5 +56,12 @@ namespace Chiligames.MetaAvatars
             avatar = PhotonNetwork.Instantiate("CubeAvatar", centerEyeAnchor.transform.position, centerEyeAnchor.transform.rotation);
             //avatar.SetActive(false);
         }
+
+        public override void OnPlayerEnteredRoom(Player newPlayer)
+        {
+            PhotonNetwork.Destroy(avatar);
+            avatar = PhotonNetwork.Instantiate("CubeAvatar", centerEyeAnchor.transform.position, centerEyeAnchor.transform.rotation);
+
+        }
     }
 }

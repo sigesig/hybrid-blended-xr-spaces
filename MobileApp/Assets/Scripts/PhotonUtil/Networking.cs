@@ -172,6 +172,13 @@ public class Networking : MonoBehaviourPunCallbacks
         // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
         PhotonNetwork.CreateRoom("Test", new RoomOptions());
     }
-    
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        PhotonNetwork.Destroy(_avatar);
+        PhotonNetwork.Destroy(_line);
+        _avatar = PhotonNetwork.Instantiate("CubeAvatar", ARCamera.transform.position, ARCamera.transform.rotation);
+        _line = PhotonNetwork.Instantiate("Laser", new Vector3(0,0,0), Quaternion.identity);
+    }
     #endregion
 }
