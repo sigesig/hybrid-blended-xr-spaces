@@ -52,7 +52,6 @@ public class SessionInProgress : MonoBehaviour
         //Gestures
         gestureInteractable.dragGestureRecognizer.onGestureStarted += DragGestureRecognizerStarted;
         gestureInteractable.tapGestureRecognizer.onGestureStarted += TapGestureRecognizerStarted;
-        
         placementInteractablePhoton.gameObject.SetActive(true);
         
         //Exit session
@@ -67,6 +66,9 @@ public class SessionInProgress : MonoBehaviour
         }
     }
 
+    #region Privated methods
+    
+    
     /// <summary>
     /// End the current session. Used by the exit session button
     /// </summary>
@@ -154,5 +156,6 @@ public class SessionInProgress : MonoBehaviour
         _laserPointerActive = !_laserPointerActive;
         _laserLine.SetActive(_laserPointerActive);
     }
-
+    
+    #endregion
 }

@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 261d383c60ecb684da904d28825d2a91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: {x: 50, y: 0, z: 0}
+  speed: {x: 0, y: 0, z: 50}
 --- !u!1 &7807949055905844466
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,7 +551,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 1
+    m_Bits: 4294967295
   m_SelectMode: 0
   m_CustomReticle: {fileID: 0}
   m_FirstHoverEntered:

@@ -1959,9 +1959,6 @@ MonoBehaviour:
   m_XROrigin: {fileID: 0}
   m_ARSessionOrigin: {fileID: 950194031}
   placementPrefab: {fileID: 7850712801630131926, guid: f23cb53dff6450447a913b0c505a0cfd, type: 3}
-  onObjectPlaced:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &848697215
 GameObject:
   m_ObjectHideFlags: 0
