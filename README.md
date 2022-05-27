@@ -1,5 +1,5 @@
 This system consisits of two seperate applications. One for the mobile phones(*MobileApp*) and one for the Oculus Quest 2(*Quest2App*).\
-In order to build and run the mobile app, you should build the and run the MainScene which is located in MobileApp/Assets/Scenes.\
+In order to build and run the mobile app, you should build and run the MainScene which is located in MobileApp/Assets/Scenes.\
 For the build settings, we used the same ones as proposed in the Augmented Reality course.
    - If you use Android: <details><summary>To get AR Foundation to build succesfully for Android you will need to change a few extra things (_click to expand_):</summary>
       1. First of all, with the **Build Settings** window open, click **Player Settings...** in the lower left.
