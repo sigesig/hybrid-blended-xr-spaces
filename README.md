@@ -52,3 +52,6 @@ For the build settings, we used the same ones as proposed in the Augmented Reali
       </details>  
 
 To run the Quest2 app, you should build the BlendedSpaces scene, which is located in QuestApp/Assets/Scenes. We used the build settings that is proposed here: https://developer.oculus.com/documentation/unity/unity-build/
+
+
+Youtube Demo: https://www.youtube.com/watch?v=AJlQWN24jv4
